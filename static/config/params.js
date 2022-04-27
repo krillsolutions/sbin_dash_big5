@@ -1,3 +1,5 @@
+var app_id = "dash_app_orange";
+
 //var host = 'https://192.168.35.8/api/';
 // var host = 'https://192.168.11.105/api/';
 var host = "https://server.krillsolutions.com/api/sbin/";
@@ -48,3 +50,7 @@ var billings_rf = {
     type_line_trend: "Evolution",
   },
 };
+
+var authorizations = [];
+
+var myFilters = {};
