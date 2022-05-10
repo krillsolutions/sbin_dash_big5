@@ -32,8 +32,8 @@ export default class TopView extends JetView {
        * END FILTER MAPPING
        */
       myFilters = response.filters;
-      console.log(authorizations);
-      console.log(myFilters);
+      // console.log(authorizations);
+      // console.log(myFilters);
 
       boot();
       return refData.waitData.then(() => {
@@ -67,7 +67,7 @@ export default class TopView extends JetView {
   }
 
   init(view) {
-    initUserSession(this.app);
+    // initUserSession(this.app);
     gconfig["app"] = this.app;
     setScreenType();
     webix.protoUI(
@@ -128,7 +128,7 @@ export default class TopView extends JetView {
             (getScreenType() == "mobile" ? "" : refs.dashTitle) +
             "</span>"
         );
-        $$("dashtitle").refresh();
+        $$("castile").refresh();
       }
       setLabels();
     });

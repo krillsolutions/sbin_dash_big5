@@ -33,13 +33,21 @@ export const geo_files_loc = {};
 export const kpi_field = {};
 export const dash_titles = {};
 export const urls = {};
+// {
+//   api_url: "https://server.krillsolutions.com/api/sbin/",
+//   host: "https://server.krillsolutions.com/api/sbin/",
+//   login_url: "https://server.krillsolutions.com/api/sbin/auth",
+// };
+
 export const ressource_ref = {};
 export const filters_list = [];
 
 export const filter_ref = new Promise((res, rej) => {
   refData.waitData.then(() => {
     let filters = refData.getItem(refData.getFirstId())["filters_opt"];
+    // console.log(filters);
     let opt_ref = refData.getItem(refData.getFirstId())["opt_ref"];
+    // console.log(opt_ref);
     const value = { filters: {} };
     //console.log(opt_ref);
     for (let ref of filters) {
@@ -131,8 +139,11 @@ refData.waitData.then(() => {
   }
 
   let opt_ref = refData.getItem(refData.getFirstId())["opt_ref"];
-  for (let b of opt_ref["b"]) {
-    //console.log(b);
+  // for (let b of opt_ref["b"]) {
+  //   //console.log(b);
+  //   bill_type.push(b);
+  // }
+  for (const b of opt_ref.b.values) {
     bill_type.push(b);
   }
   let links = refData.getItem(refData.getFirstId())["urls"];
@@ -156,7 +167,7 @@ refData.waitData.then(() => {
     geo_config[ref] = conf[ref];
   }
   let ress = refData.getItem(refData.getFirstId())["tool_bar_refs"];
-  //	console.log(ress);
+  // console.log(ress);
   for (let ref in ress) {
     ressource_ref[ref] = ress[ref];
   }

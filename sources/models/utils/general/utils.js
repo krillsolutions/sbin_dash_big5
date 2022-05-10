@@ -54,9 +54,18 @@ export function setLabels() {
     if (typeof $$("filterelmt:" + elm) != "undefined") {
       $$("loginbar").removeView("filterelmt:" + elm);
     }
-    if ($$("loginbar"))
-      if (typeof getFilter()[elm] != "undefined")
-        $$("loginbar").addView(new FilterIconView(app, "", elm), ind);
+
+    // if ($$("loginbar"))
+    //   if (typeof getFilter()[elm] != "undefined")
+    //     $$("loginbar").addView(new FilterIconView(app, "", elm), ind);
+
+    if (
+      (typeof getFilter()[elm] != "undefined" &&
+        getFilter()[elm] != myFilters[elm].values.join(",")) ||
+      (myFilters[elm] ? myFilters[elm].op != "all" : false)
+    ) {
+      $$("loginbar").addView(new FilterIconView(app, "", elm), ind);
+    }
   }
   if ($$("period")) {
     $$("period").define(

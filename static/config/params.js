@@ -1,4 +1,4 @@
-var app_id = "dash_app_orange";
+var app_id = "dash_app_sbin";
 
 //var host = 'https://192.168.35.8/api/';
 // var host = 'https://192.168.11.105/api/';
@@ -6,9 +6,9 @@ var host = "https://server.krillsolutions.com/api/sbin/";
 var urls = {
   refdata: host + "getRef?kpi=00",
   distref: host + "getRef?kpi=dist",
-  menudata: host + "getRef?kpi=01",
+  menudata: host + "getRef?kpi=01&p=" + app_id,
 };
-//console.log(urls)
+
 var api_url = "";
 
 var default_dates = {

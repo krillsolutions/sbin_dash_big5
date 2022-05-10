@@ -23,6 +23,28 @@ export function parseJwt(token) {
   return JSON.parse(jsonPayload);
 }
 
+export function getDefaultFilters() {
+  /**
+   * BEGIN MAPPING DEFAULT FILTER
+   */
+
+  var default_filters = {};
+  const keys = Object.keys(myFilters);
+
+  keys.forEach((key) => {
+    if (myFilters[key]["values"].length > 0 && myFilters[key]["op"] != "all") {
+      Object.assign(default_filters, {
+        [key]: myFilters[key]["values"].join(","),
+      });
+    }
+  });
+
+  /**
+   * END MAPPING DEFAULT FILTER
+   */
+  return default_filters;
+}
+
 export function boot() {
   let d1 =
       default_dates.d1 == ""
@@ -36,9 +58,13 @@ export function boot() {
             webix.Date.add(new Date(), -1, "day")
           )
         : default_dates.d2;
-  console.log(d2);
+  // console.log(d2);
   if (webix.storage.session.get("filter") == null)
-    webix.storage.session.put("filter", { d1: d1, d2: d2 });
+    webix.storage.session.put("filter", {
+      d1: d1,
+      d2: d2,
+      ...getDefaultFilters(),
+    });
 
   if (webix.storage.session.get("menucollapsed"))
     gconfig["menucollapsed"] = webix.storage.session.get("menucollapsed");
