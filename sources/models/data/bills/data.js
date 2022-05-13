@@ -97,9 +97,14 @@ const bill_by_lib_exp = new webix.DataCollection({
     url :  function(params) { return ServerController.getData('bills', 'getBillLib', 'vue2')}
 });
 
-const agent_pay = new webix.DataCollection({
+const agent_pay = new webix.TreeCollection({
     id : 'agent_pay',
     url :  function(params) { return ServerController.getData('bills', 'getEncaiss', 'vue1')}
+});
+
+const agent_pay_exp = new webix.DataCollection({
+    id : 'agent_pay_exp',
+    url :  function(params) { return ServerController.getData('bills', 'getEncaiss', 'vue10')}
 });
 
 const pay_by_method = new webix.DataCollection({
@@ -166,6 +171,9 @@ export function getBillsChartData(type) {
                 case 'agent_tab' :
                     return agent_pay;   
                     
+                case 'agent_tab_exp' :
+                    return agent_pay_exp;   
+                                        
                 case 'pay_meth':
                     return pay_by_method;
         }
@@ -191,7 +199,8 @@ export function getBillsChartData(type) {
             {type : 'vue2', data : bill_by_lib_exp, func : 'getBillLib'},
             {type : 'vue1', data : bill_by_zone, func : 'getBillZone'},
             {type : 'vue2', data : bill_by_zone_exp, func : 'getBillZone'},            
-            {type : 'vue1', data : agent_pay, func : 'getEncaiss'},  
+            {type : 'vue1', data : agent_pay, func : 'getEncaiss'},
+            {type : 'vue10', data : agent_pay_exp, func : 'getEncaiss'},  
             {type : 'meth', data : pay_by_method, func : 'getEncaiss'},  
             /*{type : 'trend', data : product_trend, func : 'getProduct', params : 'vue1'},
             {type : 'split', data : client_split, func : 'getSaleClientType'},

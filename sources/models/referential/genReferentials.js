@@ -133,7 +133,7 @@ refData.waitData.then(() => {
     for(let ref in links) {
         urls[ref] = links[ref];
     }
-  // urls['api_url'] = 'https://192.168.11.105/api/'; 
+  //urls['api_url'] = 'https://localhost/api/'; 
   let locs = refData.getItem(refData.getFirstId())['geo_files'];
     for(let ref in locs) {
         geo_files_loc[ref] = locs[ref];

@@ -4311,7 +4311,8 @@ export class BillingServerManager {
 
         let data = {data : []};
         let url = BillingServerManager.api_url,
-            url1 = url+'getBill/0042';
+            url1 = url+'getBill/0042',
+            url2 = url+'getBill/00421';
         return $.when(
         $.ajax({
             method : 'GET',
@@ -4326,10 +4327,23 @@ export class BillingServerManager {
             data['data'].push({kpi : 'rv_post' , value : res['data'][0]['rv_post'], var : (res['data'][0]['rv_post_'] != 0 && res['data'][0]['rv_post'] != null && res['data'][0]['rv_post_'] != null )? (100*(res['data'][0]['rv_post'] - res['data'][0]['rv_post_']) /res['data'][0]['rv_post_']).toFixed(2) : 100 });           
             data['data'].push({kpi : 'rv_pre' , value : res['data'][0]['rv_pre'], var : (res['data'][0]['rv_pre_'] != 0 && res['data'][0]['rv_pre'] != null && res['data'][0]['rv_pre_'] != null )? (100*(res['data'][0]['rv_pre'] - res['data'][0]['rv_pre_']) /res['data'][0]['rv_pre_']).toFixed(2) : 100 });           
             data['data'].push({kpi : 'qte' , value : res['data'][0]['qte'], var : (res['data'][0]['qte_'] != 0 && res['data'][0]['qte'] != null  && res['data'][0]['qte_'] != null )? (100*(res['data'][0]['qte'] - res['data'][0]['qte_']) /res['data'][0]['qte_']).toFixed(2) : 100 });           
+        //    data['data'].push({kpi : 'fpaid' , value : res['data'][0]['fpaid'], var : (res['data'][0]['fpaid_'] != 0 && res['data'][0]['fpaid'] != null && res['data'][0]['fpaid_'] != null )? (100*(res['data'][0]['fpaid'] - res['data'][0]['fpaid_']) /res['data'][0]['fpaid_']).toFixed(2) : 100 });           
+          //  data['data'].push({kpi : 'qpaid' , value : res['data'][0]['qpaid'], var : (res['data'][0]['qpaid_'] != 0 && res['data'][0]['qpaid'] != null  && res['data'][0]['qpaid_'] != null )? (100*(res['data'][0]['qpaid'] - res['data'][0]['qpaid_']) /res['data'][0]['qpaid_']).toFixed(2) : 100 });           
+
+        }) ,
+        $.ajax({
+            method : 'GET',
+            url : url2,
+            data : filters,
+            dataType: 'json',
+            headers : {
+                "Authorization" : "Bearer "+getToken()
+            }
+        }).done(function(res){
             data['data'].push({kpi : 'fpaid' , value : res['data'][0]['fpaid'], var : (res['data'][0]['fpaid_'] != 0 && res['data'][0]['fpaid'] != null && res['data'][0]['fpaid_'] != null )? (100*(res['data'][0]['fpaid'] - res['data'][0]['fpaid_']) /res['data'][0]['fpaid_']).toFixed(2) : 100 });           
             data['data'].push({kpi : 'qpaid' , value : res['data'][0]['qpaid'], var : (res['data'][0]['qpaid_'] != 0 && res['data'][0]['qpaid'] != null  && res['data'][0]['qpaid_'] != null )? (100*(res['data'][0]['qpaid'] - res['data'][0]['qpaid_']) /res['data'][0]['qpaid_']).toFixed(2) : 100 });           
 
-        })                    
+        })                   
         ).then(function(d){
             return data;
         });        
@@ -4518,7 +4532,7 @@ export class BillingServerManager {
                            }).done(function(res){
                                res.data.sort((a,b) => a.revenue - b.revenue);
                                res.data.forEach(elm => {
-                                   data['data'].push({off_group : elm.offer_group, revenue : elm.revenue , _type : 'off_split'});
+                                    data['data'].push({off_group : elm.offer_group, revenue : elm.revenue , _type : 'off_split'});
                                });
                            })
                        ).then(function(){                            
@@ -4847,15 +4861,37 @@ export class BillingServerManager {
                             "Authorization" : "Bearer "+getToken()
                         }
                     }).done(function(res){
-                        
-                        res.data.forEach(elm => {
+                        //console.log(getTreeHierachy(res.data,['agence',"agent"],"agence",['qty','amount']))
+                        data.data = getTreeHierachy(res.data,['agence',"agent"],"agence",['qty','amount'])
+                        /*res.data.forEach(elm => {
                             if (elm.qty > 0) data.data.push(elm);
-                        });
+                        });*/
                     })
-                ).then(function(){                            
+                ).then(function(){ 
+                  //  console.log(data)                           
                     return data;
                 })
                 break;
+
+                case 'vue10':
+                    return $.when(
+                        $.ajax({
+                            method : 'GET',
+                            url : url1,
+                            data : filters,
+                            dataType: 'json',
+                            headers : {
+                                "Authorization" : "Bearer "+getToken()
+                            }
+                        }).done(function(res){
+                            res.data.forEach(elm => {
+                                if (elm.qty > 0) data.data.push(elm);
+                            });
+                        })
+                    ).then(function(){                            
+                        return data;
+                    })
+                    break;                
 
 
                 case 'meth':

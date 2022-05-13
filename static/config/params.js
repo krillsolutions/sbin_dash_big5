@@ -1,5 +1,5 @@
-//var host = 'https://192.168.35.8/api/';
-var host = 'https://192.168.11.105/api/';
+var host = 'https://192.168.35.8/api/';
+//var host = 'https://192.168.11.105/api/';
 var urls = {
         'refdata' : host+'getRef?kpi=00',
         'distref' : host+'getRef?kpi=dist',

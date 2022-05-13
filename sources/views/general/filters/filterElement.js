@@ -41,6 +41,10 @@ export default class FiltersView extends JetView{
 				}
 			});
                         this.$$(this._type+"_filt").refresh();
+                        $$("general:cancel_button").attachEvent("onItemClick",function(){
+                                view.setValue(filter_ref['filters'][type].options)
+                        })
                 });
+
         }
 }

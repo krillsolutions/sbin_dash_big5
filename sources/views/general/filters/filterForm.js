@@ -15,6 +15,36 @@ export default class FilterFormView extends JetView{
                                 if (f == 'period') continue
                                 elements.push({$subview : new FiltersView(obj.app,"",f)})
                         }
+
+                        elements.push({
+                                cols : [
+                                        {
+                                                view : "button",
+                                                value : "annuler",
+                                                id : 'general:cancel_button',
+                                                name : "submit",
+                                                width: 100,
+                                                align: "left"
+        
+                                        },{},
+                                     {
+                                        view : "button",
+                                        value : "filtrer",
+                                        id : 'general:filter_button',
+                                        name : "submit",
+                                        width: 100,
+                                        align: "right",
+                                        on :{
+                                              onItemClick : function () {
+                                                      $$('general:filt_menu').hide();
+                                                      setLabels();
+                                                      EventController.callEvent('filterButton', 'click');
+                                              }
+                                      }
+                                     }   
+                                ]
+                        })
+/*
                         elements.push({
                                 view : "button",
                                 value : "filtrer",
@@ -30,6 +60,15 @@ export default class FilterFormView extends JetView{
                                       }
                               }
                               })
+                        elements.push({
+                                view : "button",
+                                value : "annuler",
+                                id : 'general:cancel_button',
+                                name : "submit",
+                                width: 100,
+                                align: "left",
+                              })
+*/
                         return {
                                 view : "form",
                                 id : "menu:filt_form",
