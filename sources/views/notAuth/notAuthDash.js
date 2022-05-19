@@ -5,8 +5,8 @@ import { JetView } from "webix-jet";
 export default class NotAuthDashView extends JetView {
   config() {
     return {
-      // template:
-      // "<b><span style='color:red'><img src='images/signal.png' height='15px' width='15px'> NOT AUTHORIZED </span></b>",
+      // view: "echarts-grid-dataset",
+      disabled: true,
     };
   }
 }

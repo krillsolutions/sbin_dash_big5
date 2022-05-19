@@ -22,9 +22,9 @@ import notAuthDash from "views/notAuth/NotAuthDash";
 import { applyAuthorizations } from "models/referential/configDash";
 export default class GraphDashView extends JetView {
   config() {
-    let authorized = applyAuthorizations(1, 1, 7, 12);
+    let authorized = applyAuthorizations(1, 1, "dash");
 
-    // console.log(authorized);
+    console.log(authorized);
 
     var gridColumns,
       gridRows,
@@ -327,14 +327,16 @@ export default class GraphDashView extends JetView {
           dy: 6,
           resize: true,
           header: new GraphHeadView(this.app, "", "parc", "homelines"),
-          disabled: !authorized[0].authorized,
-          body: authorized[0].authorized
-            ? {
-                type: "clean",
-                margin: 0,
-                rows: [
-                  ParcByProdView,
-                  {
+          // disabled: authorized.indexOf("parc_par_produit") != -1,
+          body: {
+            type: "clean",
+            margin: 0,
+            rows: [
+              authorized.indexOf("parc_par_produit") != -1
+                ? ParcByProdView
+                : notAuthDash,
+              authorized.indexOf("parc_dash") != -1
+                ? {
                     type: "clean",
                     margin: 0,
                     rows: [
@@ -346,10 +348,10 @@ export default class GraphDashView extends JetView {
                       ),
                       HomeParcNewTrendView,
                     ],
-                  },
-                ],
-              }
-            : notAuthDash,
+                  }
+                : notAuthDash,
+            ],
+          },
           css: { "background-color": "#fff" },
         });
 
@@ -361,15 +363,18 @@ export default class GraphDashView extends JetView {
           dy: 4,
           resize: true,
           header: new GraphHeadView(this.app, "", "arpu", "homelines"),
-          disabled: !authorized[1].authorized,
+          // disabled: !authorized[1].authorized,
           body: {
             type: "clean",
             margin: 0,
-            rows: [
-              { height: 10 },
-              new PeriodSelector(this.app, "", "arpuHome", 2),
-              HomearpuNewTrendView,
-            ],
+            rows:
+              authorized.indexOf("arpu_dash") != -1
+                ? [
+                    { height: 10 },
+                    new PeriodSelector(this.app, "", "arpuHome", 2),
+                    HomearpuNewTrendView,
+                  ]
+                : [notAuthDash],
           },
           css: { "background-color": "#fff" },
         });
@@ -382,15 +387,18 @@ export default class GraphDashView extends JetView {
           dy: 5,
           resize: true,
           header: new GraphHeadView(this.app, "", "rev", "homelines"),
-          disabled: !authorized[2].authorized,
+          // disabled: !authorized[2].authorized,
           body: {
             type: "clean",
             margin: 0,
-            rows: [
-              { height: 10 },
-              new PeriodSelector(this.app, "", "revByType", 3),
-              RevByTypeTrendViewNew,
-            ],
+            rows:
+              authorized.indexOf("revenu_dash") != -1
+                ? [
+                    { height: 10 },
+                    new PeriodSelector(this.app, "", "revByType", 3),
+                    RevByTypeTrendViewNew,
+                  ]
+                : [notAuthDash],
           },
           css: { "background-color": "#fff" },
         });
@@ -403,15 +411,18 @@ export default class GraphDashView extends JetView {
           dy: 5,
           resize: true,
           header: new GraphHeadView(this.app, "", "traffics", "homelines"),
-          disabled: !authorized[3].authorized,
+          // disabled: !authorized[3].authorized,
           body: {
             type: "clean",
             margin: 0,
-            rows: [
-              { height: 10 },
-              new PeriodSelector(this.app, "", "traff_per", 3),
-              HomeTraffTrendView,
-            ],
+            rows:
+              authorized.indexOf("trafic_dash") != -1
+                ? [
+                    { height: 10 },
+                    new PeriodSelector(this.app, "", "traff_per", 3),
+                    HomeTraffTrendView,
+                  ]
+                : [notAuthDash],
           },
           css: { "background-color": "#fff" },
         });
@@ -424,15 +435,18 @@ export default class GraphDashView extends JetView {
           dy: 5,
           resize: true,
           header: new GraphHeadView(this.app, "", "mnt_recharge", "homelines"),
-          disabled: !authorized[4].authorized,
+          // disabled: !true,
           body: {
             type: "clean",
             margin: 0,
-            rows: [
-              { height: 10 },
-              new PeriodSelector(this.app, "", "topupHome", 2),
-              HomeTopupNewTrendView,
-            ],
+            rows:
+              authorized.indexOf("recharge_dash") != -1
+                ? [
+                    { height: 10 },
+                    new PeriodSelector(this.app, "", "topupHome", 2),
+                    HomeTopupNewTrendView,
+                  ]
+                : [notAuthDash],
           },
           css: { "background-color": "#fff" },
         });
@@ -445,15 +459,18 @@ export default class GraphDashView extends JetView {
           dy: 5,
           resize: true,
           header: new GraphHeadView(this.app, "", "mnt_encaiss", "homelines"),
-          disabled: !authorized[5].authorized,
+          // disabled: !authorized[5].authorized,
           body: {
             type: "clean",
             margin: 0,
-            rows: [
-              { height: 10 },
-              new PeriodSelector(this.app, "", "payByType", 2),
-              PayByTypeTrendView,
-            ],
+            rows:
+              authorized.indexOf("encaissement_dash") != -1
+                ? [
+                    { height: 10 },
+                    new PeriodSelector(this.app, "", "payByType", 2),
+                    PayByTypeTrendView,
+                  ]
+                : [notAuthDash],
           },
           css: { "background-color": "#fff" },
         });

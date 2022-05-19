@@ -1,6 +1,7 @@
 import { JetView, plugins } from "webix-jet";
 import { BarUserView, BarLogoView } from "views/general/loginBarElmt";
 import { gconfig, getPeriod } from "models/utils/general/boot";
+import { setLabels } from "models/utils/general/utils";
 export default class HeadBarView extends JetView {
   config() {
     //boot();
@@ -74,5 +75,7 @@ export default class HeadBarView extends JetView {
     };
   }
 
-  init(view) {}
+  init(view) {
+    setLabels();
+  }
 }

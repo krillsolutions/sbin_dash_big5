@@ -18,7 +18,8 @@ export default class FilterFormView extends JetView {
       const keys = Object.keys(myFilters);
       const filter_keys = Object.keys(filter_ref["filters"]);
       keys.forEach((key) => {
-        if (myFilters[key]["visible"] && filter_keys.indexOf(key) != -1) {
+        // && filter_keys.indexOf(key) != -1
+        if (myFilters[key]["visible"]) {
           elements.push({ $subview: new FiltersView(obj.app, "", key) });
         }
       });

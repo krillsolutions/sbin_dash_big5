@@ -6,7 +6,8 @@ import notAuthStat from "views/notAuth/notAuthStat";
 import { applyAuthorizations } from "models/referential/configDash";
 export default class StatsView extends JetView {
   config() {
-    let authorized = applyAuthorizations(1, 1, 1, 6);
+    let authorized = applyAuthorizations(1, 1, "card");
+    // console.log(authorized);
 
     // var menu_home_dashboard = app_orange.menus
     //   .filter((e) => e.menu_id == 1)[0]
@@ -31,9 +32,10 @@ export default class StatsView extends JetView {
           y: 0,
           dx: 1,
           dy: 1,
-          body: authorized[0].authorized
-            ? new HomeStatView(this.app, "", "parc")
-            : new notAuthStat(this.app, "", "parc"),
+          body:
+            authorized.indexOf("stat_parc") != -1
+              ? new HomeStatView(this.app, "", "parc")
+              : new notAuthStat(this.app, "", "parc"),
         },
         {
           view: "panel",
@@ -41,9 +43,10 @@ export default class StatsView extends JetView {
           y: 0,
           dx: 1,
           dy: 1,
-          body: authorized[1].authorized
-            ? new HomeStatView(this.app, "", "revenue")
-            : new notAuthStat(this.app, "", "revenue"),
+          body:
+            authorized.indexOf("revenu_pyg") != -1
+              ? new HomeStatView(this.app, "", "revenue")
+              : new notAuthStat(this.app, "", "revenue"),
         },
         {
           view: "panel",
@@ -51,9 +54,10 @@ export default class StatsView extends JetView {
           y: 0,
           dx: 1,
           dy: 1,
-          body: authorized[2].authorized
-            ? new HomeStatView(this.app, "", "tvoix")
-            : new notAuthStat(this.app, "", "tvoix"),
+          body:
+            authorized.indexOf("voix") != -1
+              ? new HomeStatView(this.app, "", "tvoix")
+              : new notAuthStat(this.app, "", "tvoix"),
         },
         {
           view: "panel",
@@ -61,9 +65,10 @@ export default class StatsView extends JetView {
           y: 0,
           dx: 1,
           dy: 1,
-          body: authorized[3].authorized
-            ? new HomeStatView(this.app, "", "tdata")
-            : new notAuthStat(this.app, "", "tdata"),
+          body:
+            authorized.indexOf("stat_data") != -1
+              ? new HomeStatView(this.app, "", "tdata")
+              : new notAuthStat(this.app, "", "tdata"),
         },
         {
           view: "panel",
@@ -71,9 +76,10 @@ export default class StatsView extends JetView {
           y: 0,
           dx: 1,
           dy: 1,
-          body: authorized[4].authorized
-            ? new HomeStatView(this.app, "", "topup")
-            : new notAuthStat(this.app, "", "topup"),
+          body:
+            authorized.indexOf("stat_recharge") != -1
+              ? new HomeStatView(this.app, "", "topup")
+              : new notAuthStat(this.app, "", "topup"),
         },
         {
           view: "panel",
@@ -81,9 +87,10 @@ export default class StatsView extends JetView {
           y: 0,
           dx: 1,
           dy: 1,
-          body: authorized[5].authorized
-            ? new HomeStatView(this.app, "", "encaiss")
-            : new notAuthStat(this.app, "", "encaiss"),
+          body:
+            authorized.indexOf("souscrp") != -1
+              ? new HomeStatView(this.app, "", "encaiss")
+              : new notAuthStat(this.app, "", "encaiss"),
         },
       ],
     };

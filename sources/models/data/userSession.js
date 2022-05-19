@@ -34,6 +34,7 @@ function login(user, pass) {
     .post(loginURL, {
       user,
       pass,
+      app_id: app_id,
     })
     .then((a) => {
       setToken(a.json()["api_token"]);
@@ -45,6 +46,7 @@ function login(user, pass) {
 
 function logout() {
   window.localStorage.clear();
+  webix.storage.session.remove("filter");
   // return refData.waitData.then((d) => {
   // const loginURL = urls["login_url"];
   const loginURL = host + "auth";

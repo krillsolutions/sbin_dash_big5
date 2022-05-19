@@ -4,7 +4,6 @@ import { setLabels } from "models/utils/general/utils";
 import ServerController from "controllers/serverController";
 export default class EventController {
   static callEvent(elmt, type, filter, value) {
-    console.log("value :" + value);
     switch (elmt) {
       case "filter":
         let filter_obj = webix.storage.session.get("filter");
@@ -16,17 +15,16 @@ export default class EventController {
                 ? webix.Date.dateToStr("%Y-%m-%d")(value.end)
                 : webix.Date.dateToStr("%Y-%m-%d")(value.start);
           } else {
-            filter_obj[filter] = value;
-            console.log(filter_obj);
+            filter_obj[filter] = value.join(",");
           }
         } else {
           // delete filter_obj[filter];
           if (myFilters[filter]["op"] == "all") {
             delete filter_obj[filter];
           } else if (myFilters[filter]["values"].length > 0) {
+            console.log(myFilters[filter]["values"].join(","));
             filter_obj[filter] = myFilters[filter]["values"].join(",");
           }
-          console.log(filter_obj);
         }
         webix.storage.session.put("filter", filter_obj);
 
