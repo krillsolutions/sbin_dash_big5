@@ -18,14 +18,12 @@ import {
 } from "models/utils/home/utils";
 //import {/*HomeBndleNewTrendView*/} from "views/newHome/bundleTrendView";
 import { gconfig } from "models/utils/general/boot";
-import notAuthDash from "views/notAuth/NotAuthDash";
-import { applyAuthorizations } from "models/referential/configDash";
+// import notAuthDash from "views/notAuth/NotAuthDash";
+// import { applyAuthorizations } from "models/referential/configDash";
+import { getPanels } from "models/utils/general/utils";
+
 export default class GraphDashView extends JetView {
   config() {
-    let authorized = applyAuthorizations(1, 1, "dash");
-
-    console.log(authorized);
-
     var gridColumns,
       gridRows,
       cells = [];
@@ -39,7 +37,8 @@ export default class GraphDashView extends JetView {
       padding: 5,
       css: { "background-color": "#EBEDF0" },
     };
-
+    //this.ui(HomeParcNewTrendView);
+    // console.log(dashComponents);
     switch (getScreenType()) {
       case "mobile":
         gridColumns = 2;
@@ -319,165 +318,20 @@ export default class GraphDashView extends JetView {
         gridColumns = 6;
         gridRows = 10;
 
-        cells.push({
-          view: "panel",
-          x: 0,
-          y: 0,
-          dx: 2,
-          dy: 6,
-          resize: true,
-          header: new GraphHeadView(this.app, "", "parc", "homelines"),
-          // disabled: authorized.indexOf("parc_par_produit") != -1,
-          body: {
-            type: "clean",
-            margin: 0,
-            rows: [
-              authorized.indexOf("parc_par_produit") != -1
-                ? ParcByProdView
-                : notAuthDash,
-              authorized.indexOf("parc_dash") != -1
-                ? {
-                    type: "clean",
-                    margin: 0,
-                    rows: [
-                      /*{template : "Parc actif",type : "header", height : 30, css: {"font-size" : "12px", "font-weight": "bold"} },*/ new PeriodSelector(
-                        this.app,
-                        "",
-                        "parcHome",
-                        2
-                      ),
-                      HomeParcNewTrendView,
-                    ],
-                  }
-                : notAuthDash,
-            ],
-          },
-          css: { "background-color": "#fff" },
-        });
+        /**
+         * Take all stats and properties
+         */
+        var menu = all_apps
+          .filter((e) => e.id == app_id)[0]
+          .menus.filter((e) => e.id == "home")[0];
 
-        cells.push({
-          view: "panel",
-          x: 0,
-          y: 6,
-          dx: 2,
-          dy: 4,
-          resize: true,
-          header: new GraphHeadView(this.app, "", "arpu", "homelines"),
-          // disabled: !authorized[1].authorized,
-          body: {
-            type: "clean",
-            margin: 0,
-            rows:
-              authorized.indexOf("arpu_dash") != -1
-                ? [
-                    { height: 10 },
-                    new PeriodSelector(this.app, "", "arpuHome", 2),
-                    HomearpuNewTrendView,
-                  ]
-                : [notAuthDash],
-          },
-          css: { "background-color": "#fff" },
-        });
+        var menu_id = menu.id;
 
-        cells.push({
-          view: "panel",
-          x: 2,
-          y: 0,
-          dx: 2,
-          dy: 5,
-          resize: true,
-          header: new GraphHeadView(this.app, "", "rev", "homelines"),
-          // disabled: !authorized[2].authorized,
-          body: {
-            type: "clean",
-            margin: 0,
-            rows:
-              authorized.indexOf("revenu_dash") != -1
-                ? [
-                    { height: 10 },
-                    new PeriodSelector(this.app, "", "revByType", 3),
-                    RevByTypeTrendViewNew,
-                  ]
-                : [notAuthDash],
-          },
-          css: { "background-color": "#fff" },
-        });
-
-        cells.push({
-          view: "panel",
-          x: 2,
-          y: 5,
-          dx: 2,
-          dy: 5,
-          resize: true,
-          header: new GraphHeadView(this.app, "", "traffics", "homelines"),
-          // disabled: !authorized[3].authorized,
-          body: {
-            type: "clean",
-            margin: 0,
-            rows:
-              authorized.indexOf("trafic_dash") != -1
-                ? [
-                    { height: 10 },
-                    new PeriodSelector(this.app, "", "traff_per", 3),
-                    HomeTraffTrendView,
-                  ]
-                : [notAuthDash],
-          },
-          css: { "background-color": "#fff" },
-        });
-
-        cells.push({
-          view: "panel",
-          x: 4,
-          y: 0,
-          dx: 2,
-          dy: 5,
-          resize: true,
-          header: new GraphHeadView(this.app, "", "mnt_recharge", "homelines"),
-          // disabled: !true,
-          body: {
-            type: "clean",
-            margin: 0,
-            rows:
-              authorized.indexOf("recharge_dash") != -1
-                ? [
-                    { height: 10 },
-                    new PeriodSelector(this.app, "", "topupHome", 2),
-                    HomeTopupNewTrendView,
-                  ]
-                : [notAuthDash],
-          },
-          css: { "background-color": "#fff" },
-        });
-
-        cells.push({
-          view: "panel",
-          x: 4,
-          y: 5,
-          dx: 2,
-          dy: 5,
-          resize: true,
-          header: new GraphHeadView(this.app, "", "mnt_encaiss", "homelines"),
-          // disabled: !authorized[5].authorized,
-          body: {
-            type: "clean",
-            margin: 0,
-            rows:
-              authorized.indexOf("encaissement_dash") != -1
-                ? [
-                    { height: 10 },
-                    new PeriodSelector(this.app, "", "payByType", 2),
-                    PayByTypeTrendView,
-                  ]
-                : [notAuthDash],
-          },
-          css: { "background-color": "#fff" },
-        });
+        var tab = menu.tabs[0];
 
         break;
     }
-    config["cells"] = cells;
+    config["cells"] = getPanels(this.app, menu_id, tab);
     config["gridColumns"] = gridColumns;
     config["gridRows"] = gridRows;
     return {

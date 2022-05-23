@@ -2,100 +2,41 @@
 import { JetView } from "webix-jet";
 import HomeStatView from "views/newHome/vignetteView";
 import { getScreenType } from "models/utils/home/utils";
-import notAuthStat from "views/notAuth/notAuthStat";
-import { applyAuthorizations } from "models/referential/configDash";
+// import notAuthStat from "views/notAuth/notAuthStat";
+// import { applyAuthorizations } from "models/referential/configDash";
+import { getStats } from "models/utils/general/utils";
+
 export default class StatsView extends JetView {
   config() {
-    let authorized = applyAuthorizations(1, 1, "card");
-    // console.log(authorized);
+    /**
+     * Take all stats and properties
+     */
+    var menu = all_apps
+      .filter((e) => e.id == app_id)[0]
+      .menus.filter((e) => e.id == "home")[0];
+    /**
+     * MENU ID
+     */
+    var menu_id = menu.id;
 
-    // var menu_home_dashboard = app_orange.menus
-    //   .filter((e) => e.menu_id == 1)[0]
-    //   .tabs[0].dashboards.filter((f) => f.dash_id <= 6);
+    this._colCount = menu.stats.col_count;
+    this._maxColCount = menu.stats.max_col_count;
 
-    this._colCount = 6;
-    this._maxColCount = 6;
     var rowstat = {
       view:
         getScreenType() != "mobile" && getScreenType() != "mobile_rotated"
           ? "c-dashboard"
           : "m-dashboard",
       id: "home:stats",
-      gridColumns: this._colCount,
-      gridRows: 1,
+      gridColumns: menu.stats.grid_cols,
+      gridRows: menu.stats.grid_rows,
       maxHeight: 100,
       responsive: "hide",
-      cells: [
-        {
-          view: "panel",
-          x: 0,
-          y: 0,
-          dx: 1,
-          dy: 1,
-          body:
-            authorized.indexOf("stat_parc") != -1
-              ? new HomeStatView(this.app, "", "parc")
-              : new notAuthStat(this.app, "", "parc"),
-        },
-        {
-          view: "panel",
-          x: 1,
-          y: 0,
-          dx: 1,
-          dy: 1,
-          body:
-            authorized.indexOf("revenu_pyg") != -1
-              ? new HomeStatView(this.app, "", "revenue")
-              : new notAuthStat(this.app, "", "revenue"),
-        },
-        {
-          view: "panel",
-          x: 2,
-          y: 0,
-          dx: 1,
-          dy: 1,
-          body:
-            authorized.indexOf("voix") != -1
-              ? new HomeStatView(this.app, "", "tvoix")
-              : new notAuthStat(this.app, "", "tvoix"),
-        },
-        {
-          view: "panel",
-          x: 3,
-          y: 0,
-          dx: 1,
-          dy: 1,
-          body:
-            authorized.indexOf("stat_data") != -1
-              ? new HomeStatView(this.app, "", "tdata")
-              : new notAuthStat(this.app, "", "tdata"),
-        },
-        {
-          view: "panel",
-          x: 4,
-          y: 0,
-          dx: 1,
-          dy: 1,
-          body:
-            authorized.indexOf("stat_recharge") != -1
-              ? new HomeStatView(this.app, "", "topup")
-              : new notAuthStat(this.app, "", "topup"),
-        },
-        {
-          view: "panel",
-          x: 5,
-          y: 0,
-          dx: 1,
-          dy: 1,
-          body:
-            authorized.indexOf("souscrp") != -1
-              ? new HomeStatView(this.app, "", "encaiss")
-              : new notAuthStat(this.app, "", "encaiss"),
-        },
-      ],
+      cells: getStats(this.app, menu_id, menu.stats),
     };
     return rowstat;
   }
+
   init(view) {
     var obj = this;
     webix.event(window, "resize", function () {

@@ -213,3 +213,7 @@
 	 border-radius:5px
 
 }
+
+.margin-zero .ui.card {
+    margin: 0 !important;
+}
