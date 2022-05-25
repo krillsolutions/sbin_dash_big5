@@ -4,7 +4,7 @@ import HomeStatView from "views/newHome/vignetteView";
 import { getScreenType } from "models/utils/home/utils";
 // import notAuthStat from "views/notAuth/notAuthStat";
 // import { applyAuthorizations } from "models/referential/configDash";
-import { getStats } from "models/utils/general/utils";
+import { getStats } from "views/general/utils";
 
 export default class StatsView extends JetView {
   config() {

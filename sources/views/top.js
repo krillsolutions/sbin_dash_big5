@@ -14,8 +14,10 @@ import { initUserSession } from "models/data/userSession";
 export default class TopView extends JetView {
   config() {
     // var obj = this;
-
+    console.log("test 01");
     return initUserSession(this.app).then(function (response) {
+      console.log("test 02");
+
       var authrz_app = response.authrz.filter((e) => e.split(".")[0] == app_id);
       webix.storage.local.put("authorizations", authrz_app);
       authorizations = webix.storage.local.get("authorizations");

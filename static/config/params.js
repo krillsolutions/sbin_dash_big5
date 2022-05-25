@@ -139,7 +139,7 @@ var all_apps = [
                 dy: 6,
                 dashs: [
                   {
-                    arrange: "cols",
+                    arrange: "rows",
                     childs: [
                       {
                         id: "parcProd",
@@ -149,17 +149,6 @@ var all_apps = [
                       {
                         id: "parcHome",
                         name: "Parc trend",
-                        period_selector: true,
-                        nb_period_select: 2,
-                      },
-                    ],
-                  },
-                  {
-                    arrange: "rows",
-                    childs: [
-                      {
-                        id: "arpuHome",
-                        name: "arpu Home",
                         period_selector: true,
                         nb_period_select: 2,
                       },
@@ -178,7 +167,14 @@ var all_apps = [
                 dashs: [
                   {
                     arrange: "cols",
-                    childs: [],
+                    childs: [
+                      {
+                        id: "arpuHome",
+                        name: "arpu Home",
+                        period_selector: true,
+                        nb_period_select: 2,
+                      },
+                    ],
                   },
                 ],
               },
@@ -265,6 +261,152 @@ var all_apps = [
                         name: "pay By Type",
                         period_selector: true,
                         nb_period_select: 2,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "parc",
+        name: "parc",
+        stats: {
+          grid_cols: 5,
+          grid_rows: 1,
+          col_count: 5,
+          max_col_count: 5,
+          cards: [
+            {
+              id: "prepaid",
+              name: "Prepaid",
+              x: 0,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "postpaid",
+              name: "Postpaid",
+              x: 1,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "pmobile",
+              name: "Pmobile",
+              x: 2,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "pfixe",
+              name: "Pfixe",
+              x: 3,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "plte",
+              name: "Plte",
+              x: 4,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+          ],
+        },
+        tabs: [
+          {
+            id: "tab_1",
+            name: "Tab 1",
+            grid_cols: 10,
+            grid_rows: 6,
+            panels: [
+              {
+                id: "parc",
+                name: "Parc",
+                arrange: "rows",
+                x: 0,
+                y: 0,
+                dx: 3,
+                dy: 6,
+                dashs: [
+                  {
+                    arrange: "cols",
+                    childs: [
+                      {
+                        id: "bill_market_parc",
+                        name: "bill market parc",
+                        period_selector: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: "offer_type",
+                name: "offer type",
+                arrange: "rows",
+                x: 3,
+                y: 0,
+                dx: 4,
+                dy: 6,
+                dashs: [
+                  {
+                    arrange: "cols",
+                    childs: [
+                      {
+                        id: "parc_by_type",
+                        name: "parc by type",
+                        period_selector: false,
+                      },
+                      {
+                        id: "parc_prod_type",
+                        name: "parc prod type",
+                        period_selector: false,
+                      },
+                    ],
+                  },
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "parcByType_prod",
+                        name: "parc By Type prod",
+                        period_selector: true,
+                        nb_period_select: 2,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: "parc_other",
+                name: "parc other",
+                arrange: "rows",
+                x: 7,
+                y: 0,
+                dx: 3,
+                dy: 6,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "parc_status_net",
+                        name: "parc status net",
+                        period_selector: false,
+                      },
+                      {
+                        id: "parc_net_add",
+                        name: "parc net add",
+                        period_selector: false,
                       },
                     ],
                   },

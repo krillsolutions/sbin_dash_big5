@@ -148,9 +148,9 @@ refData.waitData.then(() => {
   }
   let links = refData.getItem(refData.getFirstId())["urls"];
   //console.log(links);
-  for (let ref in links) {
-    urls[ref] = links[ref];
-  }
+  // for (let ref in links) {
+  //   urls[ref] = links[ref];
+  // }
   //   console.log(urls);
   // urls['api_url'] = 'https://192.168.11.105/api/';
 

@@ -18,12 +18,13 @@ export function applyAuthorizations(p_menu_id, type_comp, p_tab_id) {
       .map((e) => e.split(".").slice(-1)[0]);
   } else if (type_comp == "tabs") {
     return authrz.map((e) => {
-      if (e.split(".").length > 4) {
-        return e.replace(
-          e.split(".")[0] + "." + p_menu_id + ".tabs." + p_tab_id + ".",
-          ""
-        );
-      }
+      // console.log(e);
+      return e.split(".").length > 4
+        ? e.replace(
+            e.split(".")[0] + "." + p_menu_id + ".tabs." + p_tab_id + ".",
+            ""
+          )
+        : "";
     });
   }
 }

@@ -47,6 +47,13 @@ function login(user, pass) {
 function logout() {
   window.localStorage.clear();
   webix.storage.session.remove("filter");
+  // let filters = webix.storage.session.get("filter");
+  // for (const key in filters) {
+  //   if (key != "d1" && key != "d2") delete filters[key];
+  // }
+  // console.log(filters);
+  // webix.storage.session.put("filter", filters);
+
   // return refData.waitData.then((d) => {
   // const loginURL = urls["login_url"];
   const loginURL = host + "auth";
@@ -68,7 +75,8 @@ export function initUserSession(app) {
   return new webix.promise((res, rej) => {
     //decrypt token and return authorization
     var plain_token = parseJwt(userData["info"].api_token);
-    userData["name"] = plain_token.user_name;
+    console.log(plain_token);
+    userData["info"]["name"] = plain_token.user_name;
     res({
       authrz: Object.values(plain_token.authrz),
       filters: plain_token.filters,

@@ -46,6 +46,7 @@ export function getDefaultFilters() {
 }
 
 export function boot() {
+  console.log("good");
   let d1 =
       default_dates.d1 == ""
         ? webix.Date.dateToStr("%Y-%m-%d")(
@@ -85,8 +86,10 @@ export function getFilter() {
 }
 
 export function getFilterString() {
+  console.log("test mehdi");
   let filter = {},
     filter_t = { ...getFilter() };
+
   for (let f in filter_t) {
     if (typeof filter_t[f] == "object" && filter_t[f].length) {
       filter[f] = filter_t[f].map((d) => "'" + d + "'").join(",");
@@ -94,7 +97,10 @@ export function getFilterString() {
     }
     filter[f] = filter_t[f];
   }
+  console.log(filter);
+
   return filter;
+  // return filter_t;
 }
 
 function groupBy(xs, key) {

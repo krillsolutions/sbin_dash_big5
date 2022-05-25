@@ -20,7 +20,7 @@ import {
 import { gconfig } from "models/utils/general/boot";
 // import notAuthDash from "views/notAuth/NotAuthDash";
 // import { applyAuthorizations } from "models/referential/configDash";
-import { getPanels } from "models/utils/general/utils";
+import { getPanels } from "views/general/utils";
 
 export default class GraphDashView extends JetView {
   config() {
