@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="34e9d233-7c2f-4e4e-931f-66c5a243be7d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/sources/models/config/refDash.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/models/config/refDash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/models/data/parc/data.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/models/data/parc/data.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/models/referential/configDash.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/models/referential/configDash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/models/referential/genReferentials.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/models/referential/genReferentials.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/models/utils/general/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/models/utils/general/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/models/utils/server/ServerManager.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/models/utils/server/ServerManager.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/views/notAuth/notAuthStat.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/views/notAuth/notAuthStat.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/views/parc/graphDash.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/views/parc/graphDash.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sources/views/parc/statsView.js" beforeDir="false" afterPath="$PROJECT_DIR$/sources/views/parc/statsView.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/config/params.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/config/params.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="29bVdjkwdqIhRLFWrFIkjv6qqsQ" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="34e9d233-7c2f-4e4e-931f-66c5a243be7d" name="Changes" comment="" />
+      <created>1653381864195</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1653381864195</updated>
+      <workItem from="1653381864730" duration="8000" />
+    </task>
+    <servers />
+  </component>
+</project>
