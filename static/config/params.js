@@ -17,6 +17,10 @@ var periodSplit = ['1y', '1m', '1d']
 
 var traffType = ['voice','sms', 'data']
 
+
+var traffTypeSplit = [{name : 'voice', split : ['pyg','bndle', 'free']},{name : 'sms', split : ['pyg','bndle','free']}, {name : 'data', split : ['pyg','bndle','free']}]
+
+
 var trafficYaxisType = {
     voice : {
             index : 0,name : "Voix (min.)"

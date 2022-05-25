@@ -2225,14 +2225,22 @@ export class TrafficServerManager {
                             "Authorization" : "Bearer "+getToken()
                         }
                     }).done(function(res){
+                        console.log(res)
                         res.data.forEach(elm => {
-                            if(elm.voice_pyg > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg), _type : 'month_trend', month : elm.month, free : 'pyg' });
+                            traffTypeSplit.forEach(el => {
+                                el.split.forEach(sp => {
+                                    let rt = el.name+"_"+sp
+                                    if(elm[rt] > 0) 
+                                        data['data'].push({traff_type : el.name, traffic : Number.parseFloat(elm[rt]), _type : 'month_trend', month : elm.month, free : sp });
+                                })
+                            })
+                            /*if(elm.voice_pyg > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg), _type : 'month_trend', month : elm.month, free : 'pyg' });
                             if(elm.sms_pyg > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg), _type : 'month_trend', month : elm.month, free : 'pyg'});
                             if(elm.data_pyg > 0) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg), _type : 'month_trend', month : elm.month, free : 'pyg'});
                             
                             if(elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_free), _type : 'month_trend', month : elm.month, free : 'bundle' });
                             if(elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_free), _type : 'month_trend', month : elm.month, free : 'bundle'});
-                            if(elm.data_free > 0) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month, free : 'bundle'});                            
+                            if(elm.data_free > 0) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month, free : 'bundle'});  */                          
 
                         });                            
                     })
@@ -2253,6 +2261,14 @@ export class TrafficServerManager {
                         }
                     }).done(function(res){
                         res.data.forEach(elm => {
+                            traffTypeSplit.forEach(el => {
+                                el.split.forEach(sp => {
+                                    let rt = el.name+"_"+sp
+                                    if(elm[rt] > 0) 
+                                        data['data'].push({traff_type : el.name, traffic : Number.parseFloat(elm[rt]), _type : 'dt_trend', upd_dt : elm.upd_dt, free : sp, period : elm.upd_dt.substr(0,7) });
+                                })
+                            })
+                            /*
                             if(elm.voice_pyg > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg), _type : 'dt_trend', upd_dt : elm.upd_dt, free : 'pyg', period : elm.upd_dt.substr(0,7) });
                             if(elm.sms_pyg > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg), _type : 'dt_trend', upd_dt : elm.upd_dt, free : 'pyg', period : elm.upd_dt.substr(0,7)});
                             if(elm.data_pyg > 0) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg), _type : 'dt_trend', upd_dt : elm.upd_dt, free : 'pyg', period : elm.upd_dt.substr(0,7)});
@@ -2260,7 +2276,7 @@ export class TrafficServerManager {
                             if(elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_free), _type : 'dt_trend', upd_dt : elm.upd_dt, free : 'bundle', period : elm.upd_dt.substr(0,7) });
                             if(elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_free), _type : 'dt_trend', upd_dt : elm.upd_dt, free : 'bundle', period : elm.upd_dt.substr(0,7)});
                             if(elm.data_free > 0) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_free), _type : 'dt_trend', upd_dt : elm.upd_dt, free : 'bundle', period : elm.upd_dt.substr(0,7)});                            
-
+                            */
                         });                            
                     })
                     ).then(function(dat){
@@ -2281,6 +2297,15 @@ export class TrafficServerManager {
                         }
                     }).done(function(res){
                         res.data.forEach(elm => {
+
+                            traffTypeSplit.forEach(el => {
+                                el.split.forEach(sp => {
+                                    let rt = el.name+"_"+sp
+                                    if(elm[rt] > 0) 
+                                        data['data'].push({traff_type : el.name, traffic : Number.parseFloat(elm[rt]), _type : 'slot_trend', slot : elm.slot, free : sp, period : res['d1'] });
+                                })
+                            })
+                            /*
                             if(elm.voice_pyg > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg), _type : 'slot_trend', slot : elm.slot, free : 'pyg', period : res['d1'] });
                             if(elm.sms_pyg > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg), _type : 'slot_trend', slot : elm.slot, free : 'pyg', period : res['d1']});
                             if(elm.data_pyg > 0) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg), _type : 'slot_trend', slot : elm.slot, free : 'pyg', period : res['d1']});
@@ -2288,6 +2313,7 @@ export class TrafficServerManager {
                             if(elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_free), _type : 'slot_trend', slot : elm.slot, free : 'bundle', period : res['d1'] });
                             if(elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_free), _type : 'slot_trend', slot : elm.slot, free : 'bundle', period : res['d1']});
                             if(elm.data_free > 0) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_free), _type : 'slot_trend', slot : elm.slot, free : 'bundle', period : res['d1']});                            
+                            */
 
                         });                            
                     })
