@@ -471,6 +471,142 @@ var all_apps = [
           },
         ],
       },
+      {
+        id: "recharge",
+        name: "recharge",
+        stats: {
+          grid_cols: 5,
+          grid_rows: 1,
+          col_count: 5,
+          max_col_count: 5,
+          cards: [
+            {
+              id: "rectot",
+              name: "rec total",
+              x: 0,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "cash",
+              name: "cash",
+              x: 1,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "voucher",
+              name: "voucher",
+              x: 2,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "prepaid",
+              name: "prepaid",
+              x: 3,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+            {
+              id: "postpaid",
+              name: "postpaid",
+              x: 4,
+              y: 0,
+              dx: 1,
+              dy: 1,
+            },
+          ],
+        },
+        tabs: [
+          {
+            id: "tab_1",
+            name: "Tab 1",
+            grid_cols: 6,
+            grid_rows: 3,
+            panels: [
+              {
+                id: "rec_by_type",
+                name: "rec by type",
+                arrange: "rows",
+                x: 0,
+                y: 0,
+                dx: 2,
+                dy: 3,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "rec_by_type_view",
+                        name: "rec by type view",
+                        period_selector: false,
+                      },
+                      {
+                        id: "recByType_trend",
+                        name: "rec By Type trend",
+                        period_selector: true,
+                        nb_period_select: 3,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: "rec_split",
+                name: "rec split",
+                arrange: "rows",
+                x: 2,
+                y: 0,
+                dx: 2,
+                dy: 3,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "rec_by_chan",
+                        name: "rec by chan",
+                        period_selector: false,
+                      },
+                      {
+                        id: "rec_by_value",
+                        name: "rec by value",
+                        period_selector: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: "rec_by_prod",
+                name: "rec by prod",
+                arrange: "rows",
+                x: 4,
+                y: 0,
+                dx: 2,
+                dy: 3,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "rec_by_prod_type",
+                        name: "rec by prod type",
+                        period_selector: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
     ],
   },
 ];

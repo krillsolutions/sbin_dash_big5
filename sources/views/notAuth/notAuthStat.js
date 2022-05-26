@@ -27,6 +27,10 @@ export default class NotAuthStatView extends JetView {
       case "revenue":
         my_header = kpi_field["rev_" + kp].label;
         break;
+
+      case "recharge":
+        my_header = kpi_field["rec_" + kp].label;
+        break;
     }
 
     var rowstat = {
