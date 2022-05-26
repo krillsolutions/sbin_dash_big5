@@ -555,9 +555,21 @@ static getTrafficSplitAll(type, filters, params) {
                     }
                 }).done(function(res){
                     res.data.forEach(elm => {
-                        if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'month_trend', month : elm.month });
-                        if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({_kpi : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'month_trend', month : elm.month});
-                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month});                            
+                        traffTypeSplit.forEach(el => {
+                            let traff = 0
+                            el.split.forEach(sp => {
+                                traff += ((Number.parseFloat(elm[el.name+"_"+sp]) > 0)? Number.parseFloat(elm[el.name+"_"+sp]) : 0)
+                            })
+                            if(traff != 0) data.data.push({_kpi : el.name,traffic : traff, _type : "month_trend", month : elm.month})
+                        })
+
+
+                      /*  if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', 
+                        traffic : Number.parseFloat(elm.voice_bndle) + Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'month_trend', month : elm.month });
+                        if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({_kpi : 'sms', 
+                        traffic : Number.parseFloat(elm.sms_bndle) + Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'month_trend', month : elm.month});
+                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', 
+                        traffic : Number.parseFloat(elm.data_bndle)+Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month});*/                            
                     });                            
                 })
                 ).then(function(dat){
@@ -577,9 +589,18 @@ static getTrafficSplitAll(type, filters, params) {
                     }
                 }).done(function(res){
                     res.data.forEach(elm => {
-                        if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7) });
+
+                        traffTypeSplit.forEach(el => {
+                            let traff = 0
+                            el.split.forEach(sp => {
+                                traff += ((Number.parseFloat(elm[el.name+"_"+sp]) > 0)? Number.parseFloat(elm[el.name+"_"+sp]) : 0)
+                            })
+                            if(traff != 0) data.data.push({_kpi : el.name,traffic : traff,  _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)})
+                        })
+                        
+                        /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7) });
                         if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({_kpi : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});
-                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});                            
+                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});*/                            
                     });                            
                 })
                 ).then(function(dat){
@@ -600,9 +621,18 @@ static getTrafficSplitAll(type, filters, params) {
                     }
                 }).done(function(res){
                     res.data.forEach(elm => {
-                        if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'slot_trend', slot : elm.slot, period : res['d1'] });
+
+                        traffTypeSplit.forEach(el => {
+                            let traff = 0
+                            el.split.forEach(sp => {
+                                traff += ((Number.parseFloat(elm[el.name+"_"+sp]) > 0)? Number.parseFloat(elm[el.name+"_"+sp]) : 0)
+                            })
+                            if(traff != 0) data.data.push({_kpi : el.name,traffic : traff,  _type : 'slot_trend', slot : elm.slot, period : res['d1']})
+                        })
+
+                       /* if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'slot_trend', slot : elm.slot, period : res['d1'] });
                         if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({_kpi : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});
-                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', traffic :  Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});
+                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', traffic :  Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});*/
                         
                     });                            
                 })
@@ -2344,9 +2374,16 @@ export class TrafficServerManager {
                         }
                     }).done(function(res){
                         res.data.forEach(elm => {
-                            if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'month_trend', month : elm.month });
+                            traffTypeSplit.forEach(el => {
+                                let traff = 0
+                                el.split.forEach(sp => {
+                                    traff += ((elm[el.name+"_"+sp] > 0)? elm[el.name+"_"+sp] : 0)
+                                })
+                                if(traff != 0) data.data.push({traff_type : el.name,traffic : traff, _type : "month_trend", month : elm.month})
+                            })
+                            /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'month_trend', month : elm.month });
                             if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'month_trend', month : elm.month});
-                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month});                            
+                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month});*/                            
                         });                            
                     })
                     ).then(function(dat){
@@ -2366,9 +2403,18 @@ export class TrafficServerManager {
                         }
                     }).done(function(res){
                         res.data.forEach(elm => {
-                            if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7) });
+
+                            traffTypeSplit.forEach(el => {
+                                let traff = 0
+                                el.split.forEach(sp => {
+                                    traff += ((elm[el.name+"_"+sp] > 0)? elm[el.name+"_"+sp] : 0)
+                                })
+                                if(traff != 0) data.data.push({traff_type : el.name,traffic : traff,_type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)})
+                            })
+
+                            /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7) });
                             if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});
-                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});                            
+                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});*/                            
                         });                            
                     })
                     ).then(function(dat){
@@ -2389,9 +2435,16 @@ export class TrafficServerManager {
                         }
                     }).done(function(res){
                         res.data.forEach(elm => {
-                            if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'slot_trend', slot : elm.slot, period : res['d1'] });
+                            traffTypeSplit.forEach(el => {
+                                let traff = 0
+                                el.split.forEach(sp => {
+                                    traff += ((elm[el.name+"_"+sp] > 0)? elm[el.name+"_"+sp] : 0)
+                                })
+                                if(traff != 0) data.data.push({traff_type : el.name,traffic : traff, _type : 'slot_trend', slot : elm.slot, period : res['d1']})
+                            })                            
+                            /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'slot_trend', slot : elm.slot, period : res['d1'] });
                             if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});
-                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic :  Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});
+                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic :  Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});*/
                             
                         });                            
                     })
