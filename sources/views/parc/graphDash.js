@@ -23,7 +23,7 @@ import BillMarketParc from "views/parc/parcByBillByMark";
 import PeriodSelector from "views/others/periodSelector";
 import ParcStatusNetView from "views/parc/parcByStatusNet";
 
-import { getPanels } from "views/general/utils";
+import { getPanels } from "views/parc/config/utils";
 
 export default class ParcGraphDashView extends JetView {
   config() {

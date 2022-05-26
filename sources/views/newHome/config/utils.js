@@ -1,6 +1,6 @@
 import PeriodSelector from "views/others/periodSelector";
-import { getComponent } from "models/config/refDash";
-import GraphHeadView from "views/home/graphHeaders";
+import { getComponent } from "views/newHome/config/refDash";
+import GraphHeadView from "views/newHome/graphHeaders";
 import { applyAuthorizations } from "models/referential/configDash";
 import notAuthStat from "views/notAuth/notAuthStat";
 // import notAuthDash from "views/notAuth/NotAuthDash";
@@ -9,9 +9,7 @@ import notAuthStat from "views/notAuth/notAuthStat";
  * GET PANELS
  */
 export function getPanels(app, menu_id, tab) {
-  // console.log(tab);
   let authorized = applyAuthorizations(menu_id, "tabs", tab.id);
-  // console.log(authorized);
   let authrz_panel = authorized.map((e) => e.split(".")[0]);
   return tab.panels.map((e) => {
     return {
@@ -66,7 +64,6 @@ function getChilds(app, menu_id, childs, authorized) {
   authorized = authorized
     .filter((e) => e.split(".").length > 2)
     .map((e) => e.split(".").slice(-1)[0]);
-  // console.log(authorized);
   return childs.map((f) => {
     if (f.period_selector) {
       return {
@@ -76,13 +73,13 @@ function getChilds(app, menu_id, childs, authorized) {
           authorized.indexOf(f.id) != -1
             ? [
                 new PeriodSelector(app, "", f.id, f.nb_period_select),
-                getComponent("", menu_id, f.id, "dash"),
+                getComponent("", f.id, "dash"),
               ]
             : [],
       };
     } else {
       return authorized.indexOf(f.id) != -1
-        ? getComponent("", menu_id, f.id, "dash")
+        ? getComponent("", f.id, "dash")
         : {};
     }
   });
@@ -101,7 +98,7 @@ export function getStats(app, menu_id, stats) {
     dy: e.dy,
     body:
       authorized.indexOf(e.id) != -1
-        ? getComponent(app, menu_id, e.id, "stats")
+        ? getComponent(app, e.id, "stats")
         : new notAuthStat(app, "", menu_id, e.id),
   }));
 }

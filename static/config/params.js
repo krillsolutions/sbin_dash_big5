@@ -4,9 +4,9 @@ var app_id = "dash_app_sbin";
 // var host = 'https://192.168.11.105/api/';
 var host = "https://server.krillsolutions.com/api/sbin/";
 var urls = {
-  refdata: host + "getRef?kpi=00",
-  distref: host + "getRef?kpi=dist",
-  menudata: host + "getRef?kpi=01&p=" + app_id,
+  refdata: host + "getRef-sbin?kpi=00",
+  distref: host + "getRef-sbin?kpi=dist",
+  menudata: host + "getRef-sbin?kpi=01&p=" + app_id,
 };
 
 var api_url = "";

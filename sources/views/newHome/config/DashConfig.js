@@ -6,7 +6,6 @@ import HomeTopupNewTrendView from "views/newHome/topupTrendView";
 import HomearpuNewTrendView from "views/newHome/ArpuTrendView";
 import HomeTraffTrendView from "views/newHome/trafficByTypeTrend";
 
-// console.log(ParcByProdView);
 export const dashComponentsHome = {
   parcProd: ParcByProdView,
   parcHome: HomeParcNewTrendView,

@@ -6,7 +6,6 @@ export default class EventController {
   static callEvent(elmt, type, filter, value) {
     switch (elmt) {
       case "filter":
-        console.log("yes");
         let filter_obj = webix.storage.session.get("filter");
         if (typeof value != "undefined" && value != "") {
           if (filter == "datef") {

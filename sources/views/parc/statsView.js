@@ -2,7 +2,7 @@
 import { JetView } from "webix-jet";
 // import ParcStatView from "views/parc/vignetteView";
 import { getScreenType } from "models/utils/home/utils";
-import { getStats } from "views/general/utils";
+import { getStats } from "views/parc/config/utils";
 
 export default class StatsView extends JetView {
   config() {

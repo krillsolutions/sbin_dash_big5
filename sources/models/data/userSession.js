@@ -11,7 +11,7 @@ export const userData = {};
 function status() {
   // return refData.waitData.then((d) => {
   // const loginURL = urls["login_url"];
-  const loginURL = host + "auth";
+  const loginURL = host + "auth-sbin";
   return (
     webix
       .ajax()
@@ -28,7 +28,7 @@ function status() {
 function login(user, pass) {
   // return refData.waitData.then((d) => {
   // const loginURL = urls["login_url"];
-  const loginURL = host + "auth";
+  const loginURL = host + "auth-sbin";
   return webix
     .ajax()
     .post(loginURL, {
@@ -56,7 +56,7 @@ function logout() {
 
   // return refData.waitData.then((d) => {
   // const loginURL = urls["login_url"];
-  const loginURL = host + "auth";
+  const loginURL = host + "auth-sbin";
   return webix
     .ajax()
     .post(loginURL + "?token=" + getToken() + "&logout")
@@ -75,7 +75,6 @@ export function initUserSession(app) {
   return new webix.promise((res, rej) => {
     //decrypt token and return authorization
     var plain_token = parseJwt(userData["info"].api_token);
-    console.log(plain_token);
     userData["info"]["name"] = plain_token.user_name;
     res({
       authrz: Object.values(plain_token.authrz),

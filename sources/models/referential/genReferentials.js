@@ -108,32 +108,6 @@ export const recFilterOptions = new webix.promise((res, rej) => {
   });
 });
 
-let titles = refData.getItem(refData.getFirstId())["dash_titles"];
-
-for (let ref in titles) {
-  dash_titles[ref] = titles[ref];
-}
-
-let opt_ref = refData.getItem(refData.getFirstId())["opt_ref"];
-for (let b of opt_ref["b"]) {
-  //console.log(b);
-  bill_type.push(b);
-}
-let links = refData.getItem(refData.getFirstId())["urls"];
-//console.log(links);
-for (let ref in links) {
-  urls[ref] = links[ref];
-}
-//urls['api_url'] = 'https://localhost/api/';
-let locs = refData.getItem(refData.getFirstId())["geo_files"];
-for (let ref in locs) {
-  geo_files_loc[ref] = locs[ref];
-}
-let conf = refData.getItem(refData.getFirstId())["geo_config"];
-for (let ref in conf) {
-  geo_config[ref] = conf[ref];
-}
-
 export const revGeoOptions = new webix.promise((res, rej) => {
   refData.waitData.then(() => {
     let select_opt = refData.getItem(refData.getFirstId())["select_options"];
@@ -183,7 +157,7 @@ refData.waitData.then(() => {
 
   urls["api_url"] = "https://server.krillsolutions.com/api/sbin/";
   urls["host"] = "https://server.krillsolutions.com/api/sbin/";
-  urls["login_url"] = "https://server.krillsolutions.com/api/sbin/auth";
+  urls["login_url"] = "https://server.krillsolutions.com/api/sbin/auth-sbin";
 
   let locs = refData.getItem(refData.getFirstId())["geo_files"];
   for (let ref in locs) {

@@ -46,7 +46,6 @@ export function getDefaultFilters() {
 }
 
 export function boot() {
-  console.log("good");
   let d1 =
       default_dates.d1 == ""
         ? webix.Date.dateToStr("%Y-%m-%d")(
@@ -59,7 +58,6 @@ export function boot() {
             webix.Date.add(new Date(), -1, "day")
           )
         : default_dates.d2;
-  // console.log(d2);
   if (webix.storage.session.get("filter") == null)
     webix.storage.session.put("filter", {
       d1: d1,
@@ -86,7 +84,6 @@ export function getFilter() {
 }
 
 export function getFilterString() {
-  console.log("test mehdi");
   let filter = {},
     filter_t = { ...getFilter() };
 
@@ -97,10 +94,8 @@ export function getFilterString() {
     }
     filter[f] = filter_t[f];
   }
-  console.log(filter);
 
   return filter;
-  // return filter_t;
 }
 
 function groupBy(xs, key) {
