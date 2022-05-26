@@ -33,7 +33,7 @@ export default class StatsView extends JetView {
       gridRows: 1,
       maxHeight: 100,
       responsive: "hide",
-      cells: getStats(this.app, "parc", menu.stats),
+      cells: getStats(this.app, menu_id, menu.stats),
       // cells: [
       //   {
       //     view: "panel",

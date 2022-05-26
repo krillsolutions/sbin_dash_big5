@@ -63,9 +63,7 @@ var myFilters = {};
 
 var all_apps = [
   {
-    _id: {
-      $oid: "6287b1900ade2bbd0c83cba1",
-    },
+    _id: { $oid: "6287b1900ade2bbd0c83cba1" },
     id: "dash_app_sbin",
     name: "DASHBOARD SBIN",
     menus: [
@@ -78,54 +76,12 @@ var all_apps = [
           col_count: 6,
           max_col_count: 6,
           cards: [
-            {
-              id: "parc",
-              name: "Parc",
-              x: 0,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "revenue",
-              name: "Revenue",
-              x: 1,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "tvoix",
-              name: "Voix",
-              x: 2,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "tdata",
-              name: "Data",
-              x: 3,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "topup",
-              name: "Recharge",
-              x: 4,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "encaiss",
-              name: "Encaissement",
-              x: 5,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
+            { id: "parc", name: "Parc", x: 0, y: 0, dx: 1, dy: 1 },
+            { id: "revenue", name: "Revenue", x: 1, y: 0, dx: 1, dy: 1 },
+            { id: "tvoix", name: "Voix", x: 2, y: 0, dx: 1, dy: 1 },
+            { id: "tdata", name: "Data", x: 3, y: 0, dx: 1, dy: 1 },
+            { id: "topup", name: "Recharge", x: 4, y: 0, dx: 1, dy: 1 },
+            { id: "encaiss", name: "Encaissement", x: 5, y: 0, dx: 1, dy: 1 },
           ],
         },
         tabs: [
@@ -145,7 +101,7 @@ var all_apps = [
                 dy: 6,
                 dashs: [
                   {
-                    arrange: "rows",
+                    arrange: "cols",
                     childs: [
                       {
                         id: "parcProd",
@@ -155,6 +111,17 @@ var all_apps = [
                       {
                         id: "parcHome",
                         name: "Parc trend",
+                        period_selector: true,
+                        nb_period_select: 2,
+                      },
+                    ],
+                  },
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "arpuHome",
+                        name: "arpu Home",
                         period_selector: true,
                         nb_period_select: 2,
                       },
@@ -170,19 +137,7 @@ var all_apps = [
                 y: 6,
                 dx: 2,
                 dy: 4,
-                dashs: [
-                  {
-                    arrange: "cols",
-                    childs: [
-                      {
-                        id: "arpuHome",
-                        name: "arpu Home",
-                        period_selector: true,
-                        nb_period_select: 2,
-                      },
-                    ],
-                  },
-                ],
+                dashs: [{ arrange: "cols", childs: [] }],
               },
               {
                 id: "rev",
@@ -285,46 +240,11 @@ var all_apps = [
           col_count: 5,
           max_col_count: 5,
           cards: [
-            {
-              id: "prepaid",
-              name: "Prepaid",
-              x: 0,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "postpaid",
-              name: "Postpaid",
-              x: 1,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "pmobile",
-              name: "Pmobile",
-              x: 2,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "pfixe",
-              name: "Pfixe",
-              x: 3,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
-            {
-              id: "plte",
-              name: "Plte",
-              x: 4,
-              y: 0,
-              dx: 1,
-              dy: 1,
-            },
+            { id: "prepaid", name: "Prepaid", x: 0, y: 0, dx: 1, dy: 1 },
+            { id: "postpaid", name: "Postpaid", x: 1, y: 0, dx: 1, dy: 1 },
+            { id: "pmobile", name: "Pmobile", x: 2, y: 0, dx: 1, dy: 1 },
+            { id: "pfixe", name: "Pfixe", x: 3, y: 0, dx: 1, dy: 1 },
+            { id: "plte", name: "Plte", x: 4, y: 0, dx: 1, dy: 1 },
           ],
         },
         tabs: [
@@ -365,7 +285,7 @@ var all_apps = [
                 dy: 6,
                 dashs: [
                   {
-                    arrange: "cols",
+                    arrange: "rows",
                     childs: [
                       {
                         id: "parc_by_type",
@@ -377,11 +297,6 @@ var all_apps = [
                         name: "parc prod type",
                         period_selector: false,
                       },
-                    ],
-                  },
-                  {
-                    arrange: "rows",
-                    childs: [
                       {
                         id: "parcByType_prod",
                         name: "parc By Type prod",
@@ -412,6 +327,140 @@ var all_apps = [
                       {
                         id: "parc_net_add",
                         name: "parc net add",
+                        period_selector: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: "revenue",
+        name: "revenue",
+        stats: {
+          grid_cols: 6,
+          grid_rows: 1,
+          col_count: 6,
+          max_col_count: 6,
+          cards: [
+            { id: "rtot", name: "Revenu total", x: 0, y: 0, dx: 1, dy: 1 },
+            { id: "rpyg", name: "Revenu PYG", x: 1, y: 0, dx: 1, dy: 1 },
+            { id: "rmob", name: "Revenu mobile", x: 2, y: 0, dx: 1, dy: 1 },
+            { id: "rlte", name: "Revenu LTE", x: 5, y: 0, dx: 1, dy: 1 },
+            { id: "rprepaid", name: "Revenu prep", x: 3, y: 0, dx: 1, dy: 1 },
+            { id: "rpostpaid", name: "Revenu post", x: 4, y: 0, dx: 1, dy: 1 },
+          ],
+        },
+        tabs: [
+          {
+            id: "tab_1",
+            name: "Tab 1",
+            grid_cols: 8,
+            grid_rows: 6,
+            panels: [
+              {
+                id: "rev_global",
+                name: "rev global",
+                arrange: "rows",
+                x: 0,
+                y: 0,
+                dx: 2,
+                dy: 6,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "rev_by_type_split",
+                        name: "rev by type split",
+                        period_selector: false,
+                      },
+                      {
+                        id: "revByType",
+                        name: "rev by type",
+                        period_selector: true,
+                        nb_period_select: 3,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: "rev_by_line",
+                name: "rev by line",
+                arrange: "rows",
+                x: 2,
+                y: 0,
+                dx: 2,
+                dy: 6,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "revByLine_view",
+                        name: "parc by type",
+                        period_selector: false,
+                      },
+                      {
+                        id: "revByLine",
+                        name: "rev By Line",
+                        period_selector: true,
+                        nb_period_select: 2,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: "rev_by_op",
+                name: "rev by op",
+                arrange: "rows",
+                x: 4,
+                y: 0,
+                dx: 2,
+                dy: 6,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "rev_by_op_view",
+                        name: "rev by op view",
+                        period_selector: false,
+                      },
+                      {
+                        id: "tr_voice_by_op",
+                        name: "tr voice by op",
+                        period_selector: false,
+                      },
+                    ],
+                  },
+                ],
+              },
+              {
+                id: "rev_other",
+                name: "rev other",
+                arrange: "rows",
+                x: 6,
+                y: 0,
+                dx: 2,
+                dy: 6,
+                dashs: [
+                  {
+                    arrange: "rows",
+                    childs: [
+                      {
+                        id: "rev_type_prod",
+                        name: "rev type prod",
+                        period_selector: false,
+                      },
+                      {
+                        id: "rev_by_clt",
+                        name: "rev by clt",
                         period_selector: false,
                       },
                     ],
