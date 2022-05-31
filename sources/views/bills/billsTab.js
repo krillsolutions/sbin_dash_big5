@@ -4,6 +4,7 @@ import BillsGraphDashView from "views/bills/graphDash";
 //import TraficByTypeGraphDashViewVoix from "views/traffic/trafficByTypeVoice";
 //import TraficByTypeGraphDashViewSMS from "views/traffic/trafficByTypeSMS";
 import BillsDetGraphDashView from "views/bills/billsDetDash";
+//import RecouvDetDash from "./recouvrementDetDash";
 
 export default class BillTabView extends JetView{
 
@@ -14,7 +15,7 @@ export default class BillTabView extends JetView{
 			cells : [
 				{id : 'tab:resume', header : 'Global',body : BillsGraphDashView},
 				{id : 'tab:details',header : 'Detail' , body: BillsDetGraphDashView },
-		
+				//{id : 'tab:recouvre', header : 'Recouvrement', body : RecouvDetDash}		
 			]
 		};
 	}

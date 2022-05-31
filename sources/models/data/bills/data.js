@@ -54,10 +54,16 @@ const recouvr_trend = new webix.DataCollection({
     url :  function(params) { return ServerController.getData('bills', 'getRecouvr', 'trend')}
 });
 
+const recouvr_prod_trend = new webix.DataCollection({
+    id : 'recouvr_prod_trend',
+    url :  function(params) { return ServerController.getData('bills', 'getRecouvr', 'trend_prod')}
+});
+
+/*
 const bills_by_type_split = new webix.DataCollection({
     id : 'bills_by_type_split',
     url :  function(params) { return ServerController.getData('bills', 'getSplit', 'bill','type')}
-});
+});*/
 
 const bills_by_status_split = new webix.DataCollection({
     id : 'bills_by_status_split',
@@ -146,6 +152,9 @@ export function getBillsChartData(type) {
                 case 'recouv_trend' :
                     return recouvr_trend;
 
+                /*case 'prodRec' :
+                    return recouvr_prod_trend;  */                  
+
                 case 'bill_type_split':
                     return bills_by_type_split;
 
@@ -191,6 +200,7 @@ export function getBillsChartData(type) {
             {type : 'pay', data : pays_off_trend, func : 'getBilling', params : 'month_trend'},
             {type : 'split', data : recouvr_off_split, func : 'getRecouvr'},
             {type : 'trend', data : recouvr_trend, func : 'getRecouvr'},
+           // {type : 'trend_prod', data : recouvr_prod_trend, func : 'getRecouvr'},
             {type : 'bill', data : bills_by_type_split, func : 'getSplit', params : 'type'},
             {type : 'bill', data : bills_by_status_split, func : 'getSplit', params : 'status'},
             {type : 'pay', data : pay_by_type_split, func : 'getSplit', params : 'type'},

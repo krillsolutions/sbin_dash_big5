@@ -1,67 +1,66 @@
-var app_id = "dash_app_sbin";
 
-//var host = 'https://192.168.35.8/api/';
-// var host = 'https://192.168.11.105/api/';
-var host = "https://server.krillsolutions.com/api/sbin/";
-var urls = {
-  refdata: host + "getRef-sbin?kpi=00",
-  distref: host + "getRef-sbin?kpi=dist",
-  menudata: host + "getRef-sbin?kpi=01&p=" + app_id,
-};
+function getPanels(panels) {
 
-var api_url = "";
+    let cells = []
 
-var default_dates = {
-  d1: "",
-  d2: "",
-};
+    panels.forEach(p => {
 
-var periodSplit = ["1y", "1m", "1d"];
+        cells.push({
+            view : "panel", x : p.x, y : p.y, dx : p.dx, dy : p.dy, header : p.header, 
+            body : getGraphs(p.dashs,p.arrange)
+        })
+    })
+    return cells
+}
 
-var traffType = ["voice", "sms", "data"];
+function getGraphs(dashs,arrange) {
 
-var traffTypeSplit = [
-  { name: "voice", split: ["pyg", "bndle", "free"] },
-  { name: "sms", split: ["pyg", "bndle", "free"] },
-  { name: "data", split: ["pyg", "bndle", "free"] },
-];
+    let components = {
+        type : "clean",margin : 0
+    }
+    components[arrange] = []
+    dashs.forEach(d => {
+        if(d.childs) components[arrange].push(getGraphs(d.childs, d.arrange))
+        else components[arrange].push(getComponent(d.id))
+    })
+    return components
+}
 
-var trafficYaxisType = {
-  voice: {
-    index: 0,
-    name: "Voix (min.)",
-  },
-  sms: {
-    index: 1,
-    name: "SMS (Qte.)",
-  },
-  data: {
-    index: 2,
-    name: "Data (Octets)",
-  },
-};
+function getDashAuthStruct(sAuth, sID, elm, hierachy = ["menus", "tabs", "panels","dashs", "childs"]) {
+    let result = {...elm}
+    let hierachyCP = [...hierachy]
+    if(hierachy.length != 0) {
+        let subKey = hierachy[0]
+        delete result[subKey]
+        if(!elm[subKey]) {
+            result[subKey]= []
+            return result
+        }        
+        sID = (sAuth.some(a => a == sID+"."+subKey))? sID+"."+subKey : sID
+        let subElmt
+        if(subKey == "panels") {
+           subElmt = elm[subKey].map(d => {
+            let r = {...d}   
+            if(!sAuth.some(a => sID+"."+d.id)) r["dashs"] = []
+            return r
+           })
+        }
 
-var billings_rf = {
-  b: {
-    name: "Factures",
-    bill_mk_tl: "Parc billing type/marché/Type de ligne",
-    type_line: "Par type de ligne",
-    type_line_trend: "Evolution",
-  },
+        subElmt = elm[subKey].filter((e,i) => {
+            if(subKey == "panels") return true
+            let rootID  = (subKey == "dashs")? sID+".dash_"+(i+1) : sID+"."+e.id
+            return sAuth.some(a => a == rootID)
+        } )
+        hierachyCP.shift()
+    
+        result[subKey] = subElmt.map((s,i) => {
+            return getDashAuthStruct(sAuth,((subKey == "dashs")? sID+".dash_"+(i+1) : sID+"."+s.id),s,hierachyCP)
+        })
+    }    
+    return result
+}
 
-  p: {
-    name: "Encaissements",
-    bill_mk_tl: "Parc billing type/marché/Type de ligne",
-    type_line: "Par type de ligne",
-    type_line_trend: "Evolution",
-  },
-};
-
-var authorizations = [];
-
-var myFilters = {};
-
-var all_apps = [
+let app = [
   {
     _id: { $oid: "6287b1900ade2bbd0c83cba1" },
     id: "dash_app_sbin",
@@ -609,6 +608,28 @@ var all_apps = [
       },
     ],
   },
-];
+]
 
-var product_for_recouvrement = ["LTE","Téléphone","ADSL","FTTH","GROS","Internet"]
+const menu = "home"
+let config = {}
+
+let appStruct = getDashAuthStruct(auth,app[0].id,app[0])
+
+console.log(appStruct)
+
+let tabs =  appStruct.menus.filter(e => e.id == menu)[0].tabs
+
+let graphDashs = []
+
+tabs.forEach(tab => {
+    
+    graphDashs.push({
+        view : "dashboard", gridColumns : tab.grid_cols, gridRows : tab.grid_rows, cells : getPanels(tab.panels)
+    })
+})
+
+console.log(graphDashs)
+
+
+
+
