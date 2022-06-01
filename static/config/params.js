@@ -53,3 +53,7 @@ var billings_rf = {
 	}
 
 }
+
+var product_for_recouvrement = [
+  "MOBILE","LTE","TELEPHONIE","ADSL","FTTH","INTERNET", "GROS"
+]

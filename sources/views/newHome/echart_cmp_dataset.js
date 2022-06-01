@@ -78,13 +78,13 @@ webix.protoUI({
         let i = 0;
         //console.log(dat);
 	//if (dat.length > 0) {
-        //if(typeof this.config.beforedisplay == 'function') this.config.beforedisplay(dat, conf,this._echart_obj);
+       // if(typeof this.config.beforedisplay == 'function') this.config.beforedisplay(dat, conf,this._echart_obj);
         conf.series.filter(d => (typeof d._isStack == 'undefined')).forEach(elm => {
             let dt ;
             if(typeof elm.datasetIndex != 'undefined') {
                  
                 dt = dat.filter((d) => d._type == elm._type);
-               // console.log(dt);
+               //console.log(dt);
 		if(elm._kpi) dt = dt.filter((d) => d._kpi == elm._kpi)
                  conf.dataset[elm.datasetIndex]['source'] = dt;
             }
