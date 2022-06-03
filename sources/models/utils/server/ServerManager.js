@@ -4720,7 +4720,7 @@ export class BillingServerManager {
                                       if(elm.rev_fact && Number.parseInt(elm.rev_fact) != 0){
                                           recouv = 100*(Number.parseInt(elm.rev_paid)/Number.parseInt(elm.rev_fact)).toFixed(2)
                                       }
-                                      if(recouv != 0) data.data.push({
+                                      if(elm.rev_fact != 0) data.data.push({
                                         product : elm.offer_group, 
                                         value : Math.floor(recouv),
                                         month : elm.month,
