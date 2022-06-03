@@ -1,90 +1,6 @@
 import { rev_type } from "models/referential/genReferentials";
 import { getToken, getTreeHierachy } from "models/utils/general/boot";
 
-function getDashApps() {
-  let format_data = [];
-  let url = UserServerManager.api_url;
-  url += "getDashApps";
-  //SEND AJAX REQUEST
-  return $.when(
-    $.ajax({
-      method: "GET",
-      url: url,
-      // data: data,
-    })
-      .done(function (res) {
-        //FORMATING
-        format_data = res.data.map((e) => ({
-          id: e.app_id,
-          value: e.name,
-          data: e.menus.map((f) => ({
-            id: e.id + "." + f.id,
-            value: f.name,
-            data: [
-              {
-                id: e.id + "." + f.id + ".stats",
-                value: "Stats",
-                data: f.stats.cards.map((g) => ({
-                  id: e.id + "." + f.id + ".stats." + g.id,
-                  value: g.name,
-                })),
-              },
-              {
-                id: e.id + "." + f.id + ".tabs",
-                value: "Tabs",
-                data: f.tabs.map((g) => ({
-                  id: e.id + "." + f.id + ".tabs." + g.id,
-                  value: g.name,
-                  data: g.panels.map((h) => ({
-                    id: e.id + "." + f.id + ".tabs." + g.id + "." + h.id,
-                    value: h.name,
-                    data: h.dashs.map((i, index) => ({
-                      id:
-                        e.id +
-                        "." +
-                        f.id +
-                        ".tabs." +
-                        g.id +
-                        "." +
-                        h.id +
-                        ".dash_" +
-                        (index + 1),
-                      value: "Dash " + (index + 1),
-                      data: i.childs.map((k) => ({
-                        id:
-                          e.id +
-                          "." +
-                          f.id +
-                          ".tabs." +
-                          g.id +
-                          "." +
-                          h.id +
-                          ".dash_" +
-                          (index + 1) +
-                          "." +
-                          k.id,
-                        value: k.name,
-                      })),
-                    })),
-                  })),
-                })),
-              },
-            ],
-          })),
-        }));
-
-        // format_data = res.map((e) => console.log(e.menus));
-
-        // console.log(format_data);
-        // console.log(res);
-      })
-      .then(function (res) {
-        //RESULT
-        return format_data;
-      })
-  );
-}
-
 function groupBy(xs, key) {
   return xs.reduce(function (rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -721,33 +637,29 @@ export default class HomeServerManager {
             },
           }).done(function (res) {
             res.data.forEach((elm) => {
-              if (elm.voice_pyg > 0 || elm.voice_free > 0)
-                data["data"].push({
-                  _kpi: "voice",
-                  traffic:
-                    Number.parseFloat(elm.voice_pyg) +
-                    Number.parseFloat(elm.voice_free),
-                  _type: "month_trend",
-                  month: elm.month,
+              traffTypeSplit.forEach((el) => {
+                let traff = 0;
+                el.split.forEach((sp) => {
+                  traff +=
+                    Number.parseFloat(elm[el.name + "_" + sp]) > 0
+                      ? Number.parseFloat(elm[el.name + "_" + sp])
+                      : 0;
                 });
-              if (elm.sms_pyg > 0 || elm.sms_free > 0)
-                data["data"].push({
-                  _kpi: "sms",
-                  traffic:
-                    Number.parseFloat(elm.sms_pyg) +
-                    Number.parseFloat(elm.sms_free),
-                  _type: "month_trend",
-                  month: elm.month,
-                });
-              if (elm.data_pyg > 0 || elm.data_free > 0)
-                data["data"].push({
-                  _kpi: "data",
-                  traffic:
-                    Number.parseFloat(elm.data_pyg) +
-                    Number.parseFloat(elm.data_free),
-                  _type: "month_trend",
-                  month: elm.month,
-                });
+                if (traff != 0)
+                  data.data.push({
+                    _kpi: el.name,
+                    traffic: traff,
+                    _type: "month_trend",
+                    month: elm.month,
+                  });
+              });
+
+              /*  if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', 
+                        traffic : Number.parseFloat(elm.voice_bndle) + Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'month_trend', month : elm.month });
+                        if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({_kpi : 'sms', 
+                        traffic : Number.parseFloat(elm.sms_bndle) + Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'month_trend', month : elm.month});
+                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', 
+                        traffic : Number.parseFloat(elm.data_bndle)+Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month});*/
             });
           })
         ).then(function (dat) {
@@ -767,36 +679,27 @@ export default class HomeServerManager {
             },
           }).done(function (res) {
             res.data.forEach((elm) => {
-              if (elm.voice_pyg > 0 || elm.voice_free > 0)
-                data["data"].push({
-                  _kpi: "voice",
-                  traffic:
-                    Number.parseFloat(elm.voice_pyg) +
-                    Number.parseFloat(elm.voice_free),
-                  _type: "dt_trend",
-                  upd_dt: elm.upd_dt,
-                  period: elm.upd_dt.substr(0, 7),
+              traffTypeSplit.forEach((el) => {
+                let traff = 0;
+                el.split.forEach((sp) => {
+                  traff +=
+                    Number.parseFloat(elm[el.name + "_" + sp]) > 0
+                      ? Number.parseFloat(elm[el.name + "_" + sp])
+                      : 0;
                 });
-              if (elm.sms_pyg > 0 || elm.sms_free > 0)
-                data["data"].push({
-                  _kpi: "sms",
-                  traffic:
-                    Number.parseFloat(elm.sms_pyg) +
-                    Number.parseFloat(elm.sms_free),
-                  _type: "dt_trend",
-                  upd_dt: elm.upd_dt,
-                  period: elm.upd_dt.substr(0, 7),
-                });
-              if (elm.data_pyg > 0 || elm.data_free > 0)
-                data["data"].push({
-                  _kpi: "data",
-                  traffic:
-                    Number.parseFloat(elm.data_pyg) +
-                    Number.parseFloat(elm.data_free),
-                  _type: "dt_trend",
-                  upd_dt: elm.upd_dt,
-                  period: elm.upd_dt.substr(0, 7),
-                });
+                if (traff != 0)
+                  data.data.push({
+                    _kpi: el.name,
+                    traffic: traff,
+                    _type: "dt_trend",
+                    upd_dt: elm.upd_dt,
+                    period: elm.upd_dt.substr(0, 7),
+                  });
+              });
+
+              /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7) });
+                        if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({_kpi : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});
+                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});*/
             });
           })
         ).then(function (dat) {
@@ -816,36 +719,27 @@ export default class HomeServerManager {
             },
           }).done(function (res) {
             res.data.forEach((elm) => {
-              if (elm.voice_pyg > 0 || elm.voice_free > 0)
-                data["data"].push({
-                  _kpi: "voice",
-                  traffic:
-                    Number.parseFloat(elm.voice_pyg) +
-                    Number.parseFloat(elm.voice_free),
-                  _type: "slot_trend",
-                  slot: elm.slot,
-                  period: res["d1"],
+              traffTypeSplit.forEach((el) => {
+                let traff = 0;
+                el.split.forEach((sp) => {
+                  traff +=
+                    Number.parseFloat(elm[el.name + "_" + sp]) > 0
+                      ? Number.parseFloat(elm[el.name + "_" + sp])
+                      : 0;
                 });
-              if (elm.sms_pyg > 0 || elm.sms_free > 0)
-                data["data"].push({
-                  _kpi: "sms",
-                  traffic:
-                    Number.parseFloat(elm.sms_pyg) +
-                    Number.parseFloat(elm.sms_free),
-                  _type: "slot_trend",
-                  slot: elm.slot,
-                  period: res["d1"],
-                });
-              if (elm.data_pyg > 0 || elm.data_free > 0)
-                data["data"].push({
-                  _kpi: "data",
-                  traffic:
-                    Number.parseFloat(elm.data_pyg) +
-                    Number.parseFloat(elm.data_free),
-                  _type: "slot_trend",
-                  slot: elm.slot,
-                  period: res["d1"],
-                });
+                if (traff != 0)
+                  data.data.push({
+                    _kpi: el.name,
+                    traffic: traff,
+                    _type: "slot_trend",
+                    slot: elm.slot,
+                    period: res["d1"],
+                  });
+              });
+
+              /* if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({_kpi : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'slot_trend', slot : elm.slot, period : res['d1'] });
+                        if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({_kpi : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});
+                        if(elm.data_pyg > 0 || elm.data_free > 0) data['data'].push({_kpi : 'data', traffic :  Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});*/
             });
           })
         ).then(function (dat) {
@@ -2709,7 +2603,7 @@ export class TrafficServerManager {
               Authorization: "Bearer " + getToken(),
             },
           }).done(function (res) {
-            // console.log(res);
+            console.log(res);
             res.data.forEach((elm) => {
               traffTypeSplit.forEach((el) => {
                 el.split.forEach((sp) => {
@@ -2842,33 +2736,23 @@ export class TrafficServerManager {
             },
           }).done(function (res) {
             res.data.forEach((elm) => {
-              if (elm.voice_pyg > 0 || elm.voice_free > 0)
-                data["data"].push({
-                  traff_type: "voice",
-                  traffic:
-                    Number.parseFloat(elm.voice_pyg) +
-                    Number.parseFloat(elm.voice_free),
-                  _type: "month_trend",
-                  month: elm.month,
+              traffTypeSplit.forEach((el) => {
+                let traff = 0;
+                el.split.forEach((sp) => {
+                  traff +=
+                    elm[el.name + "_" + sp] > 0 ? elm[el.name + "_" + sp] : 0;
                 });
-              if (elm.sms_pyg > 0 || elm.sms_free > 0)
-                data["data"].push({
-                  traff_type: "sms",
-                  traffic:
-                    Number.parseFloat(elm.sms_pyg) +
-                    Number.parseFloat(elm.sms_free),
-                  _type: "month_trend",
-                  month: elm.month,
-                });
-              if (elm.data_pyg > 0 || elm.data_free)
-                data["data"].push({
-                  traff_type: "data",
-                  traffic:
-                    Number.parseFloat(elm.data_pyg) +
-                    Number.parseFloat(elm.data_free),
-                  _type: "month_trend",
-                  month: elm.month,
-                });
+                if (traff != 0)
+                  data.data.push({
+                    traff_type: el.name,
+                    traffic: traff,
+                    _type: "month_trend",
+                    month: elm.month,
+                  });
+              });
+              /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'month_trend', month : elm.month });
+                            if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'month_trend', month : elm.month});
+                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'month_trend', month : elm.month});*/
             });
           })
         ).then(function (dat) {
@@ -2888,36 +2772,25 @@ export class TrafficServerManager {
             },
           }).done(function (res) {
             res.data.forEach((elm) => {
-              if (elm.voice_pyg > 0 || elm.voice_free > 0)
-                data["data"].push({
-                  traff_type: "voice",
-                  traffic:
-                    Number.parseFloat(elm.voice_pyg) +
-                    Number.parseFloat(elm.voice_free),
-                  _type: "dt_trend",
-                  upd_dt: elm.upd_dt,
-                  period: elm.upd_dt.substr(0, 7),
+              traffTypeSplit.forEach((el) => {
+                let traff = 0;
+                el.split.forEach((sp) => {
+                  traff +=
+                    elm[el.name + "_" + sp] > 0 ? elm[el.name + "_" + sp] : 0;
                 });
-              if (elm.sms_pyg > 0 || elm.sms_free > 0)
-                data["data"].push({
-                  traff_type: "sms",
-                  traffic:
-                    Number.parseFloat(elm.sms_pyg) +
-                    Number.parseFloat(elm.sms_free),
-                  _type: "dt_trend",
-                  upd_dt: elm.upd_dt,
-                  period: elm.upd_dt.substr(0, 7),
-                });
-              if (elm.data_pyg > 0 || elm.data_free)
-                data["data"].push({
-                  traff_type: "data",
-                  traffic:
-                    Number.parseFloat(elm.data_pyg) +
-                    Number.parseFloat(elm.data_free),
-                  _type: "dt_trend",
-                  upd_dt: elm.upd_dt,
-                  period: elm.upd_dt.substr(0, 7),
-                });
+                if (traff != 0)
+                  data.data.push({
+                    traff_type: el.name,
+                    traffic: traff,
+                    _type: "dt_trend",
+                    upd_dt: elm.upd_dt,
+                    period: elm.upd_dt.substr(0, 7),
+                  });
+              });
+
+              /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7) });
+                            if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});
+                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic : Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'dt_trend', upd_dt : elm.upd_dt, period : elm.upd_dt.substr(0,7)});*/
             });
           })
         ).then(function (dat) {
@@ -2937,36 +2810,24 @@ export class TrafficServerManager {
             },
           }).done(function (res) {
             res.data.forEach((elm) => {
-              if (elm.voice_pyg > 0 || elm.voice_free > 0)
-                data["data"].push({
-                  traff_type: "voice",
-                  traffic:
-                    Number.parseFloat(elm.voice_pyg) +
-                    Number.parseFloat(elm.voice_free),
-                  _type: "slot_trend",
-                  slot: elm.slot,
-                  period: res["d1"],
+              traffTypeSplit.forEach((el) => {
+                let traff = 0;
+                el.split.forEach((sp) => {
+                  traff +=
+                    elm[el.name + "_" + sp] > 0 ? elm[el.name + "_" + sp] : 0;
                 });
-              if (elm.sms_pyg > 0 || elm.sms_free > 0)
-                data["data"].push({
-                  traff_type: "sms",
-                  traffic:
-                    Number.parseFloat(elm.sms_pyg) +
-                    Number.parseFloat(elm.sms_free),
-                  _type: "slot_trend",
-                  slot: elm.slot,
-                  period: res["d1"],
-                });
-              if (elm.data_pyg > 0 || elm.data_free)
-                data["data"].push({
-                  traff_type: "data",
-                  traffic:
-                    Number.parseFloat(elm.data_pyg) +
-                    Number.parseFloat(elm.data_free),
-                  _type: "slot_trend",
-                  slot: elm.slot,
-                  period: res["d1"],
-                });
+                if (traff != 0)
+                  data.data.push({
+                    traff_type: el.name,
+                    traffic: traff,
+                    _type: "slot_trend",
+                    slot: elm.slot,
+                    period: res["d1"],
+                  });
+              });
+              /*if(elm.voice_pyg > 0 || elm.voice_free > 0) data['data'].push({traff_type : 'voice', traffic : Number.parseFloat(elm.voice_pyg)+Number.parseFloat(elm.voice_free), _type : 'slot_trend', slot : elm.slot, period : res['d1'] });
+                            if(elm.sms_pyg > 0 || elm.sms_free > 0) data['data'].push({traff_type : 'sms', traffic : Number.parseFloat(elm.sms_pyg)+Number.parseFloat(elm.sms_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});
+                            if(elm.data_pyg > 0 || elm.data_free) data['data'].push({traff_type : 'data', traffic :  Number.parseFloat(elm.data_pyg)+Number.parseFloat(elm.data_free), _type : 'slot_trend', slot : elm.slot, period : res['d1']});*/
             });
           })
         ).then(function (dat) {
@@ -3060,7 +2921,7 @@ export class TrafficServerManager {
               ["billing_type", "offer_group", "offer"],
               "voice_traff"
             ).map((d) => ({ ...d, traff_type: "voice" }));
-            // console.log(data.data);
+            console.log(data.data);
             data.data = [
               ...data.data,
               ...getHierachy(
@@ -3079,7 +2940,7 @@ export class TrafficServerManager {
             ];
           })
         ).then(function (d) {
-          // console.log(data.data);
+          console.log(data.data);
           return data;
         });
         break;
@@ -5912,8 +5773,7 @@ export class BillingServerManager {
     let data = { data: [] };
     let url = BillingServerManager.api_url,
       url1 = url + "getBill/0152",
-      url2 = url + "getBill/0162",
-      url3 = url+"getBill/0163"
+      url2 = url + "getBill/0162";
     switch (type) {
       case "split":
         let rev = 0,
@@ -6000,41 +5860,6 @@ export class BillingServerManager {
         });
         break;
 
-      case "trend_prod" :
-        return $.when(
-          $.ajax({
-            method: "GET",
-            url: url3,
-            data: filters,
-            dataType: "json",
-            headers: {
-              Authorization: "Bearer " + getToken(),
-            },
-          }).done(function (res) {
-            let recouv;
-            res.data.forEach((elm) => {
-              recouv = 100;
-              if (elm.rev_fact && Number.parseInt(elm.rev_fact) != 0) {
-                recouv =
-                  100 *
-                  (
-                    Number.parseInt(elm.rev_paid) /
-                    Number.parseInt(elm.rev_fact)
-                  ).toFixed(2);
-              }
-              /*if(recouv != 0)*/ data.data.push({
-                month : elm.month,
-                period : elm.period,
-                product: elm.off_group,
-                value: recouv,
-              });
-            });
-          })
-        ).then(function (d) {
-          return data;
-        });
-      break
-      
       default:
         break;
     }
