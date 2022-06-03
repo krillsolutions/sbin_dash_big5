@@ -4722,7 +4722,7 @@ export class BillingServerManager {
                                       }
                                       if(recouv != 0) data.data.push({
                                         product : elm.offer_group, 
-                                        value : recouv,
+                                        value : Math.floor(recouv),
                                         month : elm.month,
                                         period : elm.period,
                                         fact : elm.type,
