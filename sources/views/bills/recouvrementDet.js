@@ -1,50 +1,57 @@
 import { JetView } from "webix-jet";
 import * as ech from "views/newHome/echart_cmp_dataset"
-import { components } from "../../models/referential/genReferentials";
+import { color_ref, components } from "../../models/referential/genReferentials";
 import { getBillsChartData } from "../../models/data/bills/data";
-import { updateChartReady } from "../../models/utils/general/utils";
+import { getDates, getMonthsFromDate, updateChartReady } from "../../models/utils/general/utils";
 
 export default class RecouvreDetView extends JetView {
 
 
-    constructor(app,name,prod) {
+    constructor(app,name,period,type) {
 
         super(app,name)
-        this._prod = prod
+        this._period = period
+        this._type = type
     }
 
     config(){
         
-        let prod = this._prod
+        let type_fact = this._type, obj = this
+        let mths = getMonthsFromDate(getDates()['d1'], recouvr_months_offset)
+        if(!mths[this._period]) return {}
+        let periodIndex = this._period
+        let periodTitle =  mths[obj._period]
+        return webix.promise.all([color_ref]).then((data) => {
+            let color_ref = data[0];
         return {
             view : "echarts-grid-dataset",
-            id : "recouv:vue2:prod:"+prod,
+            id : "recouv:vue2:period:"+periodIndex+":"+type_fact,            
             beforedisplay : function(dat,conf,echart_obj) {
+                let months = getMonthsFromDate(getDates()['d1'], recouvr_months_offset)
+                let period =  months[obj._period]
                 let data = [...dat]
-                let periods = data.filter(d => d.product == prod).map(d => d.period).filter((d,i,ar) => ar.indexOf(d) == i)
+                let products = data.filter(d => d.period == period && d.fact == type_fact).map(d => d.product).filter((d,i,ar) => ar.indexOf(d) == i)
                 let series = [], dataset = [], xaxis = []
-               // console.log(periods);
                 data.sort((a,b) => (b.month < a.month)? 1 : -1 )
-                xaxis = data.filter(d => d.product == prod).map(d => d.month).filter((d,i,ar) => ar.indexOf(d) == i)
-                periods.forEach(p => {
+                xaxis = data.filter(d => d.period == period && d.fact == type_fact).map(d => d.month).filter((d,i,ar) => ar.indexOf(d) == i)
+                products.forEach(p => {
                     dataset.push({
-                        dimensions : ['month','value'],source : data.filter(d => d.product == prod && d.period == p)
+                        dimensions : ['month','value'],source : data.filter(d => d.period == period && d.product == p && d.fact == type_fact)
                     })
 
                     series.push({
-                        type : "line", _type : p, name : p, _kpi : prod, encode : {x : "month", y : "value"}, datasetIndex : dataset.length-1,
-                        _isStack : true
+                        type : "line", _type : p, name : p, _kpi : period, encode : {x : "month", y : "value"}, datasetIndex : dataset.length-1,
+                        _isStack : true,lineStyle : {color :color_ref.parcOff[p] },
+                        itemStyle : {color : color_ref.parcOff[p]},
                     })                    
                 });
-                if(series.length != 0) conf.series = [...series,...conf.series]
-                if(dataset.length != 0) conf.dataset = [...conf.dataset, ...dataset];
-                if(xaxis.length != 0) conf.xAxis[0].data = xaxis
-                //console.log(dat)
-
+                conf.title[0].text = period
+                conf.series = [...series]
+                conf.dataset = [...dataset]
+                conf.xAxis[0].data = xaxis
             },
+
 			options :{
-
-
                 tooltip : {
                     trigger: "axis",
                     show : true,
@@ -61,12 +68,20 @@ export default class RecouvreDetView extends JetView {
                     padding: 10,
                    
                 },
-				legend : {show : true, top : 5, type : 'scroll', textStyle : {fontSize : 10},
-                /*formatter: function(x) {
-                    return getMonth(x); 
-                    
-                }*/
-            },
+				legend : {show : true, top : 5, type : 'scroll', textStyle : {fontSize : 10}},
+
+           title : [
+				
+				{
+					text : periodTitle,
+					left : 40,
+                    top : 25,
+                    textAlign: 'center',
+                    textStyle : {
+                        fontSize : 12
+                    }
+				}				
+			],
                 
                 dataset : [],
 	            grid : {
@@ -82,12 +97,7 @@ export default class RecouvreDetView extends JetView {
                     lineHeight: 30
                   },
                    name : "Mois d'observation",
-                   /*axisLabel: { 
-                    formatter: function(x) {
-                        return getMonth(x); 
-                        
-                    }
-                },*/
+
                     },
 			    ],
 			    yAxis: [
@@ -96,35 +106,35 @@ export default class RecouvreDetView extends JetView {
     		    		splitLine: {
         	    			show: true
     		    		},
-                       /* axisLabel: {
-                            formatter: function (value) {
-                            return kFormatter(value);
-                        }
-                    }*/
 			    }
 			    ],
                 series : []
 		
-		}
+		    }
             
         }
+    })
     }
 
     init(view) {
 
+        let mths = getMonthsFromDate(getDates()['d1'], recouvr_months_offset)
+        
+        if(!mths[this._period]) return
         view.showProgress()
         view.disable()
         components['bills'].push({
             cmp : view.config.id, data : getBillsChartData("prodRec").config.id
         })
 
+        //if(!getBillsChartData("prodRec").data.getRange)
         getBillsChartData("prodRec").waitData.then(d => {
-
             view._isDataLoaded = 1
             view.parse(getBillsChartData('prodRec'))
             view.enable()
             view.hideProgress()
         })
+
         view.data.attachEvent("onStoreLoad", function () {
             updateChartReady(view.config.id)
         })

@@ -55,5 +55,7 @@ var billings_rf = {
 }
 
 var product_for_recouvrement = [
-  "MOBILE","LTE","TELEPHONIE","ADSL","FTTH","INTERNET", "GROS"
+  "MOBILE","LTE","TELEPHONIE","ADSL"//,"FTTH","INTERNET", "GROS"
 ]
+
+var recouvr_months_offset = 3

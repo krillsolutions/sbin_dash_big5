@@ -24,7 +24,6 @@ webix.protoUI({
         var obj = this;
         this.data.attachEvent("onAfterLoad", function(){
                 if (this._ready_awaits == 2){
-                    console.log("afterload");
                         //this._echart_obj.showLoading();
                         webix.delay(webix.bind(this.render, this));
                         //this._echart_obj.hideLoading();
@@ -53,7 +52,6 @@ webix.protoUI({
         conf = $.extend(true, conf, this.config );
 	this._isDataLoaded = (typeof this._isDataLoaded == 'undefined')? 0 : this._isDataLoaded;
 //        var rootelmt = d3.select(this.$view).append('div').attr('width' , this.$width).attr('height', this.$height);
-      //  console.log(this.$view);
 	var obj = this;
 	const echart =  echarts.init(obj.$view);
         this._echart_obj = echart;
@@ -73,10 +71,10 @@ webix.protoUI({
 
     render : function() {
         var conf = this.config.options;
+        //if(!this.data) return
         var data = this.data.getRange();
         let dat = [...data];
         let i = 0;
-        //console.log(dat);
 	//if (dat.length > 0) {
        // if(typeof this.config.beforedisplay == 'function') this.config.beforedisplay(dat, conf,this._echart_obj);
         conf.series.filter(d => (typeof d._isStack == 'undefined')).forEach(elm => {
@@ -84,14 +82,14 @@ webix.protoUI({
             if(typeof elm.datasetIndex != 'undefined') {
                  
                 dt = dat.filter((d) => d._type == elm._type);
-               //console.log(dt);
 		if(elm._kpi) dt = dt.filter((d) => d._kpi == elm._kpi)
                  conf.dataset[elm.datasetIndex]['source'] = dt;
             }
         });
         if(typeof this.config.beforedisplay == 'function') this.config.beforedisplay(dat, conf,this._echart_obj);
         this._echart_obj.setOption(conf,true);
-		if((this._isDataLoaded == 1 && dat.length == 0) || (dat.length > 0)) this._echart_obj.hideLoading();
+		
+        if((this._isDataLoaded == 1 && dat.length == 0) || (dat.length > 0)) this._echart_obj.hideLoading();
 	//}
 	/*else {
 		if(this._isDataLoaded == 1) {
