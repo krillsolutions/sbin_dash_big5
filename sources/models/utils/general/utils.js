@@ -8,7 +8,8 @@ import {
 } from "models/utils/general/boot";
 
 export function getUrl(data) {
-  return urls[data] + "&token=" + getToken();
+  return urls[data];
+  // return urls[data] + "&token=" + getToken();
 }
 
 export function showProcess(menu, cmp) {

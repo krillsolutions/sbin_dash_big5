@@ -1,9 +1,32 @@
 import PeriodSelector from "views/others/periodSelector";
-import { getComponent } from "views/newHome/config/refDash";
+import { getComponent } from "views/bills/config/refDash";
+import { tabComponentsBill } from "views/bills/config/TabConfig";
 import GraphHeadView from "views/newHome/graphHeaders";
 import { applyAuthorizations } from "models/referential/configDash";
 import notAuthStat from "views/notAuth/notAuthStat";
-// import notAuthDash from "views/notAuth/NotAuthDash";
+import { getTitle } from "models/utils/home/utils";
+
+export function getTabDash(app, id) {
+  // console.log("tabs works");
+  return tabComponentsBill(app, id)[id];
+}
+
+// /**
+//  * GET TABS
+//  */
+// export function getTabs(app, tabs) {
+//   return tabs.map((e) => getTab(app, e.id, e.title_id, e.kpi, e.data));
+// }
+// /**
+//  * GET TAB
+//  */
+// export function getTab(app, tab_id, title_id, kpi, data) {
+//   return {
+//     id: tab_id,
+//     header: getTitle(title_id),
+//     body: getComponentTraffic(app, tab_id, kpi, data),
+//   };
+// }
 
 /**
  * GET PANELS
@@ -19,7 +42,7 @@ export function getPanels(app, menu_id, tab) {
       dx: e.dx,
       dy: e.dy,
       resize: true,
-      header: new GraphHeadView(app, "", e.id, "homelines"),
+      header: new GraphHeadView(app, "", e.id),
       disabled: !(authrz_panel.indexOf(e.id) != -1),
       body: {
         type: "clean",
@@ -36,7 +59,7 @@ export function getPanels(app, menu_id, tab) {
  */
 export function getPanel(app, menu_id, panel, authorized) {
   let doc = {};
-  doc[panel.arrange] = getDashs(app, menu_id, panel.dashs, authorized);
+  doc[panel.arrange] = getDashs(app, panel.dashs, authorized);
   return doc;
 }
 
@@ -44,21 +67,14 @@ export function getPanel(app, menu_id, panel, authorized) {
  * GET DASHS
  */
 
-function getDashs(app, menu_id, dashs, authorized) {
+function getDashs(app, dashs, authorized) {
   return dashs.map((dash) => {
     let doc = {};
-
-    // getChilds(app, menu_id, dash.childs, authorized).forEach((e) => {
-    //   console.log(e);
-    // });
-
-    doc[dash.arrange] = getChilds(app, menu_id, dash.childs, authorized).filter(
+    doc[dash.arrange] = getChilds(app, dash.childs, authorized).filter(
       (e) =>
         (typeof e == "object" && Object.keys(e).length != 0) ||
         typeof e == "function"
     );
-
-    // console.log(doc);
 
     return doc;
   });
@@ -67,11 +83,10 @@ function getDashs(app, menu_id, dashs, authorized) {
 /**
  * GET CHILD
  */
-function getChilds(app, menu_id, childs, authorized) {
+function getChilds(app, childs, authorized) {
   authorized = authorized
     .filter((e) => e.split(".").length > 2)
     .map((e) => e.split(".").slice(-1)[0]);
-  // console.log(authorized);
   return childs.map((f) => {
     if (f.period_selector) {
       return {
@@ -81,14 +96,22 @@ function getChilds(app, menu_id, childs, authorized) {
           authorized.indexOf(f.id) != -1
             ? [
                 new PeriodSelector(app, "", f.id, f.nb_period_select),
-                getComponent("", f.id, "dash"),
+                getComponent(app, f.id, "dash"),
               ]
             : [],
       };
     } else {
       return authorized.indexOf(f.id) != -1
-        ? getComponent("", f.id, "dash")
+        ? getComponent(app, f.id, "dash")
         : {};
+      // console.log(authorized.indexOf(f.id) != -1);
+      // if (authorized.indexOf(f.id) != -1) {
+      //   console.log(f.id);
+      //   console.log(getComponent(app, f.id, "dash"));
+      //   return getComponent(app, f.id, "dash");
+      // } else {
+      //   return {};
+      // }
     }
   });
 }

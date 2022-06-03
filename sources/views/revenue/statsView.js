@@ -3,15 +3,14 @@ import { JetView } from "webix-jet";
 import RevStatView from "views/revenue/vignetteView";
 import { getScreenType } from "models/utils/home/utils";
 import { getStats } from "views/revenue/config/utils";
+import { getMenuApp } from "models/referential/genReferentials";
 
 export default class StatsView extends JetView {
   config() {
     /**
      * Take all stats and properties
      */
-    var menu = all_apps
-      .filter((e) => e.id == app_id)[0]
-      .menus.filter((e) => e.id == "revenue")[0];
+    var menu = getMenuApp("revenue");
     // console.log(menu);
     /**
      * MENU ID

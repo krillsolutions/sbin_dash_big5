@@ -5,15 +5,16 @@ import { getScreenType } from "models/utils/home/utils";
 // import notAuthStat from "views/notAuth/notAuthStat";
 // import { applyAuthorizations } from "models/referential/configDash";
 import { getStats } from "views/newHome/config/utils";
+import { getMenuApp } from "models/referential/genReferentials";
 
 export default class StatsView extends JetView {
   config() {
+    // console.log(getAppList());
+    // console.log(getMenuApp("home"));
     /**
      * Take all stats and properties
      */
-    var menu = all_apps
-      .filter((e) => e.id == app_id)[0]
-      .menus.filter((e) => e.id == "home")[0];
+    var menu = getMenuApp("home");
     /**
      * MENU ID
      */

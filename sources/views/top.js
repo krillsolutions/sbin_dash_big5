@@ -146,4 +146,16 @@ export default class TopView extends JetView {
     //webix.Touch.disable();
     webix.Touch.limit(true);
   }
+
+  urlChange(view, url) {
+    let menu_authrz = Array.from(
+      new Set(authorizations.map((e) => e.split(".")[1]))
+    );
+    if (menu_authrz.indexOf(url[1].page) == -1) {
+      // document.location.href = "/#!/top/" + menu_authrz[0];
+      // console.log("works");
+      this.app.show("/top/" + menu_authrz[0]);
+      // console.log(view);
+    }
+  }
 }

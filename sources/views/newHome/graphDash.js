@@ -22,6 +22,8 @@ import { gconfig } from "models/utils/general/boot";
 // import { applyAuthorizations } from "models/referential/configDash";
 import { getPanels } from "views/newHome/config/utils";
 
+import { getMenuApp } from "models/referential/genReferentials";
+
 export default class GraphDashView extends JetView {
   config() {
     var gridColumns,
@@ -321,9 +323,7 @@ export default class GraphDashView extends JetView {
         /**
          * Take all stats and properties
          */
-        var menu = all_apps
-          .filter((e) => e.id == app_id)[0]
-          .menus.filter((e) => e.id == "home")[0];
+        var menu = getMenuApp("home");
 
         var menu_id = menu.id;
 

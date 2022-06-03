@@ -5,14 +5,14 @@ import { JetView } from "webix-jet";
 import { getScreenType } from "models/utils/general/utils";
 import { getStats } from "views/recharge/config/utils";
 
+import { getMenuApp } from "models/referential/genReferentials";
+
 export default class StatsView extends JetView {
   config() {
     /**
      * Take all stats and properties
      */
-    var menu = all_apps
-      .filter((e) => e.id == app_id)[0]
-      .menus.filter((e) => e.id == "recharge")[0];
+    var menu = getMenuApp("recharge");
     // console.log(menu);
     /**
      * MENU ID

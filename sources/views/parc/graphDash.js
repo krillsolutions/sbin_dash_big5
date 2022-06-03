@@ -25,6 +25,8 @@ import ParcStatusNetView from "views/parc/parcByStatusNet";
 
 import { getPanels } from "views/parc/config/utils";
 
+import { getMenuApp } from "models/referential/genReferentials";
+
 export default class ParcGraphDashView extends JetView {
   config() {
     var gridColumns,
@@ -160,9 +162,7 @@ export default class ParcGraphDashView extends JetView {
         /**
          * Take all stats and properties
          */
-        var menu = all_apps
-          .filter((e) => e.id == app_id)[0]
-          .menus.filter((e) => e.id == "parc")[0];
+        var menu = getMenuApp("parc");
 
         var menu_id = menu.id;
         // console.log(menu_id);

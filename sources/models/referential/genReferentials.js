@@ -1,6 +1,40 @@
 import { getUrl } from "models/utils/general/utils";
+import { getToken } from "models/utils/general/boot";
 
 //console.log(urls)
+
+/**
+ * INTERCEPTOR AJAX
+ */
+
+webix.attachEvent(
+  "onBeforeAjax",
+  function (mode, url, data, request, headers, files, promise) {
+    headers["Authorization"] = "Bearer " + getToken();
+  }
+);
+
+/**
+ * GET APP LIST
+ */
+const dash_data_coll = new webix.DataCollection({
+  id: "apps_list",
+  url: "https://server.krillsolutions.com/api/sbin/getDashApps",
+});
+
+export function getAppList() {
+  let current_app = dash_data_coll.data
+    .getRange()
+    .filter((e) => e.id == app_id)[0];
+
+  return current_app;
+}
+
+export function getMenuApp(menu_id) {
+  let menu = getAppList().menus.filter((e) => e.id == menu_id)[0];
+
+  return menu;
+}
 
 export const refData = new webix.DataCollection({
   url: getUrl("refdata"),

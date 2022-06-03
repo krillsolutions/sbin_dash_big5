@@ -16,10 +16,10 @@ function status() {
     webix
       .ajax()
       .headers({
-        authorizations: "Bearer " + getToken(),
+        Authorization: "Bearer " + getToken(),
       })
       // .post(loginURL + "?token=" + getToken() + "&status")
-      .post(loginURL + "?status")
+      .post(loginURL + "?status&app_id=" + app_id)
       .then((a) => a.json())
   );
   // });
@@ -57,14 +57,17 @@ function logout() {
   // return refData.waitData.then((d) => {
   // const loginURL = urls["login_url"];
   const loginURL = host + "auth-sbin";
-  return webix
-    .ajax()
-    .post(loginURL + "?token=" + getToken() + "&logout")
-    .then((a) => {
-      setToken("");
-      webix.storage.session.remove("tk");
-      return a.json();
-    });
+  return (
+    webix
+      .ajax()
+      .post(loginURL + "?logout")
+      // .post(loginURL + "?token=" + getToken() + "&logout")
+      .then((a) => {
+        setToken("");
+        webix.storage.session.remove("tk");
+        return a.json();
+      })
+  );
   // });
 }
 
@@ -74,11 +77,12 @@ export function initUserSession(app) {
 
   return new webix.promise((res, rej) => {
     //decrypt token and return authorization
+    // console.log(userData["info"]);
     var plain_token = parseJwt(userData["info"].api_token);
     userData["info"]["name"] = plain_token.user_name;
     res({
-      authrz: Object.values(plain_token.authrz),
-      filters: plain_token.filters,
+      authrz: Object.values(userData["info"].authrz),
+      filters: userData["info"].filters,
     });
   });
 }

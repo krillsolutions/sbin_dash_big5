@@ -14,7 +14,9 @@ export default class NotAuthStatView extends JetView {
     let menu_id = this._menu_id;
 
     let my_header = "";
-
+    // console.log(menu_id);
+    // console.log(kpi_field);
+    // console.log(kp);
     switch (menu_id) {
       case "home":
         my_header = kpi_field[kp].label;
@@ -30,6 +32,14 @@ export default class NotAuthStatView extends JetView {
 
       case "recharge":
         my_header = kpi_field["rec_" + kp].label;
+        break;
+
+      case "traffic":
+        my_header = kpi_field["traffic_" + kp].label;
+        break;
+
+      case "bills":
+        my_header = kpi_field["bill_" + kp].label;
         break;
     }
 

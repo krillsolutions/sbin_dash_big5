@@ -1,6 +1,90 @@
 import { rev_type } from "models/referential/genReferentials";
 import { getToken, getTreeHierachy } from "models/utils/general/boot";
 
+function getDashApps() {
+  let format_data = [];
+  let url = UserServerManager.api_url;
+  url += "getDashApps";
+  //SEND AJAX REQUEST
+  return $.when(
+    $.ajax({
+      method: "GET",
+      url: url,
+      // data: data,
+    })
+      .done(function (res) {
+        //FORMATING
+        format_data = res.data.map((e) => ({
+          id: e.app_id,
+          value: e.name,
+          data: e.menus.map((f) => ({
+            id: e.id + "." + f.id,
+            value: f.name,
+            data: [
+              {
+                id: e.id + "." + f.id + ".stats",
+                value: "Stats",
+                data: f.stats.cards.map((g) => ({
+                  id: e.id + "." + f.id + ".stats." + g.id,
+                  value: g.name,
+                })),
+              },
+              {
+                id: e.id + "." + f.id + ".tabs",
+                value: "Tabs",
+                data: f.tabs.map((g) => ({
+                  id: e.id + "." + f.id + ".tabs." + g.id,
+                  value: g.name,
+                  data: g.panels.map((h) => ({
+                    id: e.id + "." + f.id + ".tabs." + g.id + "." + h.id,
+                    value: h.name,
+                    data: h.dashs.map((i, index) => ({
+                      id:
+                        e.id +
+                        "." +
+                        f.id +
+                        ".tabs." +
+                        g.id +
+                        "." +
+                        h.id +
+                        ".dash_" +
+                        (index + 1),
+                      value: "Dash " + (index + 1),
+                      data: i.childs.map((k) => ({
+                        id:
+                          e.id +
+                          "." +
+                          f.id +
+                          ".tabs." +
+                          g.id +
+                          "." +
+                          h.id +
+                          ".dash_" +
+                          (index + 1) +
+                          "." +
+                          k.id,
+                        value: k.name,
+                      })),
+                    })),
+                  })),
+                })),
+              },
+            ],
+          })),
+        }));
+
+        // format_data = res.map((e) => console.log(e.menus));
+
+        // console.log(format_data);
+        // console.log(res);
+      })
+      .then(function (res) {
+        //RESULT
+        return format_data;
+      })
+  );
+}
+
 function groupBy(xs, key) {
   return xs.reduce(function (rv, x) {
     (rv[x[key]] = rv[x[key]] || []).push(x);
@@ -2625,7 +2709,7 @@ export class TrafficServerManager {
               Authorization: "Bearer " + getToken(),
             },
           }).done(function (res) {
-            console.log(res);
+            // console.log(res);
             res.data.forEach((elm) => {
               traffTypeSplit.forEach((el) => {
                 el.split.forEach((sp) => {
@@ -2976,7 +3060,7 @@ export class TrafficServerManager {
               ["billing_type", "offer_group", "offer"],
               "voice_traff"
             ).map((d) => ({ ...d, traff_type: "voice" }));
-            console.log(data.data);
+            // console.log(data.data);
             data.data = [
               ...data.data,
               ...getHierachy(
@@ -2995,7 +3079,7 @@ export class TrafficServerManager {
             ];
           })
         ).then(function (d) {
-          console.log(data.data);
+          // console.log(data.data);
           return data;
         });
         break;

@@ -24,6 +24,7 @@ import {
 import { gconfig } from "models/utils/general/boot";
 
 import { getPanels } from "views/revenue/config/utils";
+import { getMenuApp } from "models/referential/genReferentials";
 
 export default class RevGraphDashView extends JetView {
   config() {
@@ -198,9 +199,7 @@ export default class RevGraphDashView extends JetView {
         /**
          * Take all stats and properties
          */
-        var menu = all_apps
-          .filter((e) => e.id == app_id)[0]
-          .menus.filter((e) => e.id == "revenue")[0];
+        var menu = getMenuApp("revenue");
 
         var menu_id = menu.id;
         // console.log(menu_id);
