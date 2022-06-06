@@ -8,6 +8,7 @@ import BillsDetGraphDashView from "views/bills/billsDetDash";
 import { getTabDash } from "views/bills/config/utils";
 import { getMenuApp } from "models/referential/genReferentials";
 import { applyAuthorizations } from "models/referential/configDash";
+import RecouvDetDash from "./recouvrementDetDash";
 
 export default class BillTabView extends JetView {
   config() {
@@ -18,7 +19,6 @@ export default class BillTabView extends JetView {
     var menu = getMenuApp("bills");
 
     // var menu_id = menu.id;
-
     var tabs = menu.tabs;
     // console.log(menu.tabs);
     // console.log(getTabs(this.app, menu.tabs));
@@ -33,6 +33,12 @@ export default class BillTabView extends JetView {
         body: getTabDash(this.app, tab.id),
       });
       // }
+    });
+
+    cells.push({
+      id: "tab:recouvre",
+      header: "Recouvrement",
+      body: RecouvDetDash,
     });
 
     // console.log(cells);

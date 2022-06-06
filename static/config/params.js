@@ -1299,4 +1299,25 @@ var all_apps = [
   },
 ];
 
-var product_for_recouvrement = ["LTE","Téléphone","ADSL","FTTH","GROS","Internet"]
+var product_for_recouvrement = [
+  "LTE",
+  "Téléphone",
+  "ADSL",
+  "FTTH",
+  "GROS",
+  "Internet",
+];
+
+var product_for_recouvrement = [
+  "MOBILE",
+  "LTE",
+  "TELEPHONIE",
+  "ADSL", //,"FTTH","INTERNET", "GROS"
+];
+
+var recouvr_months_offset = 3;
+
+var fact_type = [
+  { name: "PERIODIQUE", id: "period" },
+  { name: "ISOLEE", id: "isolee" },
+];

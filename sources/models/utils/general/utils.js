@@ -88,7 +88,15 @@ export function getMonth(date) {
 export function getDates() {
   return getPeriod();
 }
+export function getMonthsFromDate(date,nbr){
 
+	let months = [],
+	d = date.substr(0,7)+"-01"
+	for(let i = nbr; i>=0; i--){
+		months.push( webix.Date.dateToStr("%Y-%m")(webix.Date.add(webix.Date.strToDate("%Y-%m-%d")(d),-i,"month")))
+	}
+	return months
+}
 function getDeepData(odata, t) {
   let data = { ...odata };
   if (data.children) {

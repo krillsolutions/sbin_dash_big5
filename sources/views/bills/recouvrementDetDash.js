@@ -1,50 +1,37 @@
 import { JetView } from "webix-jet";
+//import { getDates, getMonthsFromDate } from "../../models/utils/general/utils";
 import GraphHeadView from "../home/graphHeaders";
-import RecouvreDetView from "./recouvrementDet";
+import RecouvGridView from "./recouvGridView";
+//import RecouvreDetView from "./recouvrementDet";
 
+export default class RecouvDetDash extends JetView {
+  config() {
+    let grid_cols = fact_type.length * 2,
+      grid_rows = 2,
+      cells = [];
+    fact_type.forEach((f, i) => {
+      cells.push({
+        view: "panel",
+        header: new GraphHeadView(this.app, "", "recouv_split_fact_" + f.id),
+        x: 2 * i,
+        y: 0,
+        dx: 2,
+        dy: 2,
+        body: {
+          view: "scrollview",
+          scroll: "y",
+          body: new RecouvGridView(this.app, "", f.name),
+        },
+      });
+    });
+    console.log(cells);
+    return {
+      view: "c-dashboard",
+      gridColumns: grid_cols,
+      gridRows: grid_rows,
+      cells: cells,
+    };
+  }
 
-export default class RecouvDetDash extends JetView{
-
-    
-    getColNum(count){
-        if(count == 4) return 2
-        return  (count%4 == 0)?4 : ((count%3 == 0)? 3 : ((count%4) == 1 ? ((count%3 == 1)? 2 :3 ) : 4) )           
-    }    
-    
-    config() {
-
-        let nCol = this.getColNum(product_for_recouvrement.length),
-        nRow = Math.floor(product_for_recouvrement.length/nCol)
-
-        let rows = {type : "clean", margin : 0 , rows : []}
-
-        let k = 0, cols = {type : "clean", margin : 0, cols : []}
-        product_for_recouvrement.forEach(p => {
-            
-            if(k != nCol) {
-                cols.cols.push(new RecouvreDetView(this.app, "", p))
-                k++
-            }
-            else {
-                rows.rows.push({...cols})
-                cols = {type : "clean", margin : 0, cols : []}                
-                k = 0
-            }
-        });
-
-        return {
-            view : "dashboard", 
-            gridColumns : 2,
-            gridRows : 2,
-            cells : [{
-                view : "panel",
-                header : new GraphHeadView(this.app,"",""),
-                x : 0,
-                y : 0,
-                dx : 2,
-                dy : 2,
-                body : rows
-            }]
-        }
-    }
+  init(view) {}
 }

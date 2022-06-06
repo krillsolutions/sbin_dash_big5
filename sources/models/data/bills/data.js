@@ -81,7 +81,7 @@ const recouvr_trend = new webix.DataCollection({
 const recouvr_prod_trend = new webix.DataCollection({
   id: "recouvr_prod_trend",
   url: function (params) {
-    return ServerController.getData("bills", "getRecouvr", "trend_prod");
+    return ServerController.getData("bills", "getRecouvr", "prod_trend");
   },
 });
 
@@ -195,8 +195,8 @@ export function getBillsChartData(type) {
     case "recouv_trend":
       return recouvr_trend;
 
-    /*case 'prodRec' :
-                    return recouvr_prod_trend;  */
+    case "prodRec":
+      return recouvr_prod_trend;
 
     case "bill_type_split":
       return bills_by_type_split;
@@ -268,7 +268,7 @@ function getAllBillsData() {
     },
     { type: "split", data: recouvr_off_split, func: "getRecouvr" },
     { type: "trend", data: recouvr_trend, func: "getRecouvr" },
-    // {type : 'trend_prod', data : recouvr_prod_trend, func : 'getRecouvr'},
+    { type: "prod_trend", data: recouvr_prod_trend, func: "getRecouvr" },
     {
       type: "bill",
       data: bills_by_type_split,

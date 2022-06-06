@@ -2,13 +2,20 @@ import { showProcess } from "models/utils/general/utils";
 import { components } from "models/referential/genReferentials";
 import { setLabels } from "models/utils/general/utils";
 import ServerController from "controllers/serverController";
+import { gconfig } from "models/utils/general/boot";
+
 export default class EventController {
+  static dateFlag = false;
+  static dateChange = "";
   static callEvent(elmt, type, filter, value) {
     switch (elmt) {
       case "filter":
+        EventController.dateFlag = false;
         let filter_obj = webix.storage.session.get("filter");
         if (typeof value != "undefined" && value != "") {
           if (filter == "datef") {
+            EventController.dateFlag = true;
+            EventController.dateChange = filter_obj["d1"];
             filter_obj["d1"] = webix.Date.dateToStr("%Y-%m-%d")(value.start);
             filter_obj["d2"] =
               value.end != null
@@ -18,7 +25,6 @@ export default class EventController {
             filter_obj[filter] = value.join(",");
           }
         } else {
-          // delete filter_obj[filter];
           if (myFilters[filter]["op"] == "all") {
             delete filter_obj[filter];
           } else if (myFilters[filter]["values"].length > 0) {
@@ -34,6 +40,9 @@ export default class EventController {
         if (type == "click") {
           setLabels();
           EventController.loadData();
+          if (EventController.dateFlag && EventController.dateChange != "") {
+            gconfig["app"].callEvent("app:ButtonClicked:dateChange");
+          }
         }
         break;
     }

@@ -5773,7 +5773,8 @@ export class BillingServerManager {
     let data = { data: [] };
     let url = BillingServerManager.api_url,
       url1 = url + "getBill/0152",
-      url2 = url + "getBill/0162";
+      url2 = url + "getBill/0162",
+      url3 = url + "getBill/0163";
     switch (type) {
       case "split":
         let rev = 0,
@@ -5804,6 +5805,45 @@ export class BillingServerManager {
                 off_group: elm.off_group,
                 recouvr: recouv,
               });
+            });
+          })
+        ).then(function (d) {
+          return data;
+        });
+        break;
+
+      case "prod_trend":
+        return $.when(
+          $.ajax({
+            method: "GET",
+            url: url3,
+            data: filters,
+            dataType: "json",
+            headers: {
+              Authorization: "Bearer " + getToken(),
+            },
+          }).done(function (res) {
+            let recouv = 0;
+            res.data.forEach((elm) => {
+              recouv = 100;
+              if (elm.rev_fact && Number.parseInt(elm.rev_fact) != 0) {
+                recouv =
+                  100 *
+                  (
+                    Number.parseInt(elm.rev_paid) /
+                    Number.parseInt(elm.rev_fact)
+                  ).toFixed(2);
+              }
+              if (elm.rev_fact != 0)
+                data.data.push({
+                  product: elm.offer_group,
+                  value: Math.floor(recouv),
+                  month: elm.month,
+                  period: elm.period,
+                  fact: elm.type,
+                  _kpi: elm.offer_group,
+                  _type: elm.period,
+                });
             });
           })
         ).then(function (d) {
