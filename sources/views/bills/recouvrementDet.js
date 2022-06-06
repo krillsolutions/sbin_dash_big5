@@ -63,7 +63,6 @@ export default class RecouvreDetView extends JetView {
                     backgroundColor: 'rgba(40, 40, 40, 0.6)',
 			        textStyle : {color : '#fff'},
                     z : 100 ,
-
                     borderWidth: 1,
                     padding: 10,
                    
