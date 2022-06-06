@@ -59,3 +59,7 @@ var product_for_recouvrement = [
 ]
 
 var recouvr_months_offset = 3
+var fact_type = [
+  {name : "PERIODIQUE", id : "period" },
+  {name : "ISOLEE", id : "isolee"}
+]
