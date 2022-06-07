@@ -1,51 +1,45 @@
 import { JetView } from "webix-jet";
 import * as ech from "views/newHome/echart_cmp_dataset"
-import { color_ref, components } from "../../models/referential/genReferentials";
+import { components, filter_ref } from "../../models/referential/genReferentials";
 import { getBillsChartData } from "../../models/data/bills/data";
 import { getDates, getMonthsFromDate, updateChartReady } from "../../models/utils/general/utils";
 
-export default class RecouvreDetView extends JetView {
+export default class RecouvreCurveView extends JetView {
 
 
-    constructor(app,name,period,type) {
+    constructor(app,name,type) {
 
         super(app,name)
-        this._period = period
         this._type = type
     }
 
     config(){
         
         let type_fact = this._type, obj = this
-        let mths = getMonthsFromDate(getDates()['d2'], recouvr_months_offset)
-        if(!mths[this._period]) return {}
-        let periodIndex = this._period
-        let periodTitle =  mths[obj._period]
-        return webix.promise.all([color_ref]).then((data) => {
-            let color_ref = data[0];
         return {
             view : "echarts-grid-dataset",
-            id : "recouv:vue2:period:"+periodIndex+":"+type_fact,            
+            id : "recouv:vue2:curve:"+type_fact,            
             beforedisplay : function(dat,conf,echart_obj) {
                 let months = getMonthsFromDate(getDates()['d2'], recouvr_months_offset)
-                let period =  months[obj._period]
-                let data = [...dat]
-                let products = data.filter(d => d.period == period && d.fact == type_fact).map(d => d.product).filter((d,i,ar) => ar.indexOf(d) == i)
+                let data = [...dat],
+                prod = obj.getRoot()._current_prod
+
+                //let products = data.filter(d => d.period == period && d.fact == type_fact).map(d => d.product).filter((d,i,ar) => ar.indexOf(d) == i)
                 let series = [], dataset = [], xaxis = []
                 data.sort((a,b) => (b.month < a.month)? 1 : -1 )
-                xaxis = data.filter(d => d.period == period && d.fact == type_fact).map(d => d.month).filter((d,i,ar) => ar.indexOf(d) == i)
-                products.forEach(p => {
+                xaxis = data.filter(d => (d.type == type_fact && d.product == prod)).map(d => d.month).filter((d,i,ar) => ar.indexOf(d) == i)
+                months.forEach((p,i) => {
+                    
                     dataset.push({
-                        dimensions : ['month','value'],source : data.filter(d => d.period == period && d.product == p && d.fact == type_fact)
+                        dimensions : ['month','P_'+i],source : data.filter(d => (d.type == type_fact && d.product == prod))
                     })
 
                     series.push({
-                        type : "line", _type : p, name : p, _kpi : period, encode : {x : "month", y : "value"}, datasetIndex : dataset.length-1,
-                        _isStack : true,lineStyle : {color :color_ref.parcOff[p] },
-                        itemStyle : {color : color_ref.parcOff[p]},
+                        type : "line", name : p, encode : {x : "month", y : "P_"+i}, datasetIndex : dataset.length-1,
+                        _isStack : true
                     })                    
                 });
-                conf.title[0].text = period
+                //conf.title[0].text = period
                 conf.series = [...series]
                 conf.dataset = [...dataset]
                 conf.xAxis[0].data = xaxis
@@ -72,8 +66,8 @@ export default class RecouvreDetView extends JetView {
            title : [
 				
 				{
-					text : periodTitle,
-					left : 40,
+					text : "Evolution du recouvrement",
+					left : "25%",
                     top : 25,
                     textAlign: 'center',
                     textStyle : {
@@ -112,24 +106,25 @@ export default class RecouvreDetView extends JetView {
 		    }
             
         }
-    })
     }
 
     init(view) {
-
-        let mths = getMonthsFromDate(getDates()['d2'], recouvr_months_offset)
         
-        if(!mths[this._period]) return
         view.showProgress()
         view.disable()
         components['bills'].push({
-            cmp : view.config.id, data : getBillsChartData("prodRec").config.id
+            cmp : view.config.id, data : getBillsChartData("recouvDecTab").config.id
         })
 
-        //if(!getBillsChartData("prodRec").data.getRange)
-        getBillsChartData("prodRec").waitData.then(d => {
+
+        Promise.resolve(filter_ref).then((filter_ref) => {
+            view._current_prod =  filter_ref["filters"]["p"]["options"][0].id? filter_ref["filters"]["p"]["options"][0].id : filter_ref["filters"]["p"]["options"][0]
+        })
+        
+        //if(!getBillsChartData("recouvDecTab").data.getRange)
+        getBillsChartData("recouvDecTab").waitData.then(d => {
             view._isDataLoaded = 1
-            view.parse(getBillsChartData('prodRec'))
+            view.parse(getBillsChartData('recouvDecTab'))
             view.enable()
             view.hideProgress()
         })

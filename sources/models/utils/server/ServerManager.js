@@ -1,5 +1,6 @@
 import {rev_type} from 'models/referential/genReferentials';
 import {getToken,getTreeHierachy} from 'models/utils/general/boot';
+import { getDates, getMonthsFromDate } from '../general/utils';
 
 function groupBy(xs, key) {
     return xs.reduce(function(rv, x) {
@@ -4735,7 +4736,76 @@ export class BillingServerManager {
                       ).then(function(d){
                           return data
                       });                      
-              break;                
+              break;    
+              
+              case 'prod_trend_tab':
+              let mths = getMonthsFromDate(getDates()['d2'], recouvr_months_offset).sort((a,b) => (b>a? 1 : -1) )                  
+              return $.when(
+                  $.ajax({
+                      method : 'GET',
+                      url : url3,
+                      data : filters,
+                      dataType: 'json',
+                      headers : {
+                          "Authorization" : "Bearer "+getToken()
+                      }
+                  }).done(function(res){
+                      let recouv = 0, dat = []
+                          res.data.forEach(elm => {
+                                  recouv = 100
+                                  if(elm.rev_fact && Number.parseInt(elm.rev_fact) != 0){
+                                      recouv = 100*(Number.parseInt(elm.rev_paid)/Number.parseInt(elm.rev_fact)).toFixed(2)
+                                  }
+                                  if(elm.rev_fact != 0) {
+                                      let period_id = "P_"+mths.indexOf(elm.period)
+
+                                      let doc = {
+                                        product : elm.offer_group, 
+                                        month : elm.month,
+                                        period : elm.period,
+                                        fact_type : elm.type,
+                                        _kpi : elm.offer_group,
+                                        value :  Math.floor(recouv)
+                                      }
+                                      doc[period_id] = recouv.toFixed(2)
+                                      
+                                      dat.push(doc) 
+                                 }                                
+                          })
+                          let q = [],
+                              prods = dat.map(d => d.product).filter((d,i,a) => (a.indexOf(d) == i))
+                          
+                          fact_type.forEach( f => {
+                            mths.forEach((m,i) =>{
+                              
+                              prods.forEach((p) => {
+                                let doc = {month : m, type : f.name}
+                                doc["product"] = p
+                                mths.forEach((m1,j) => {
+
+                                  if(dat.some(d => (d.month == m && d.fact_type == f.name && p == d.product && d.period == m1))) {
+                                    doc["P_"+j] = dat.filter(d => (d.month == m && d.period == m1 && d.fact_type == f.name && p == d.product))[0].value
+                                  }
+                                  else if (m >= m1) doc["P_"+j] = "-"
+
+                                }) 
+                                q.push(doc)                             
+                            })
+                              
+                          } )
+                        })
+
+
+                          //Array.from(d3.rollup(dat,
+                            //v => {let r = {}; mths.forEach((m,i) => { r["P_"+i] = d3.sum(v, d => d["P_"+i]) }); return r}, v => v.month, v => v.fact_type)).forEach(f => { Array.from(f[1]).forEach(p => { q.push({month : f[0], type : p[0],...p[1]}) }) })
+                            
+                            data.data = [...q]
+                  })        
+                            
+                  ).then(function(d){
+                      return data
+                  });                      
+          break;           
 
             case 'trend':
                // let rev = 0, paid = 0;
