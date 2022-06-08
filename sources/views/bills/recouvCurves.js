@@ -20,7 +20,7 @@ export default class RecouvreCurveView extends JetView {
             view : "echarts-grid-dataset",
             id : "recouv:vue2:curve:"+type_fact,            
             beforedisplay : function(dat,conf,echart_obj) {
-                let months = getMonthsFromDate(getDates()['d2'], recouvr_months_offset)
+                let months = getMonthsFromDate(getDates()['d2'], recouvr_months_offset)//.sort((a,b) => b>a ? 1 : -1)
                 let data = [...dat],
                 prod = obj.getRoot()._current_prod
 
@@ -31,11 +31,11 @@ export default class RecouvreCurveView extends JetView {
                 months.forEach((p,i) => {
                     
                     dataset.push({
-                        dimensions : ['month','P_'+i],source : data.filter(d => (d.type == type_fact && d.product == prod))
+                        dimensions : ['month','P_'+(months.length -1 - i)],source : data.filter(d => (d.type == type_fact && d.product == prod))
                     })
 
                     series.push({
-                        type : "line", name : p, encode : {x : "month", y : "P_"+i}, datasetIndex : dataset.length-1,
+                        type : "line", name : p, encode : {x : "month", y : "P_"+(months.length -1 - i)}, datasetIndex : dataset.length-1,
                         _isStack : true
                     })                    
                 });
