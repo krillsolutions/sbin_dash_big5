@@ -13,7 +13,7 @@ export default class RecouvGridView extends JetView {
     let cells = [],
       type_fact = this._type_fact;
 
-    console.log(type_fact);
+    // console.log(type_fact);
     let mths = getMonthsFromDate(getDates()["d1"], recouvr_months_offset);
     let nCol = 2,
       k = 0,
@@ -47,7 +47,7 @@ export default class RecouvGridView extends JetView {
       p++;
     });
 
-    console.log(cells);
+    // console.log(cells);
 
     return {
       view: "gridlayout",

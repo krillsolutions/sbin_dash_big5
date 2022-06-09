@@ -21,7 +21,7 @@ export default class RecouvreDetView extends JetView {
   config() {
     let type_fact = this._type,
       obj = this;
-    let mths = getMonthsFromDate(getDates()["d1"], recouvr_months_offset);
+    let mths = getMonthsFromDate(getDates()["d2"], recouvr_months_offset);
     if (!mths[this._period]) return {};
     let periodIndex = this._period;
     let periodTitle = mths[obj._period];
@@ -32,7 +32,7 @@ export default class RecouvreDetView extends JetView {
         id: "recouv:vue2:period:" + periodIndex + ":" + type_fact,
         beforedisplay: function (dat, conf, echart_obj) {
           let months = getMonthsFromDate(
-            getDates()["d1"],
+            getDates()["d2"],
             recouvr_months_offset
           );
           let period = months[obj._period];
@@ -144,7 +144,7 @@ export default class RecouvreDetView extends JetView {
   }
 
   init(view) {
-    let mths = getMonthsFromDate(getDates()["d1"], recouvr_months_offset);
+    let mths = getMonthsFromDate(getDates()["d2"], recouvr_months_offset);
 
     if (!mths[this._period]) return;
     view.showProgress();
