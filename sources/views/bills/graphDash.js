@@ -170,8 +170,8 @@ export default class BillsGraphDashView extends JetView {
 
         // console.log(getPanels(this.app, menu_id, tab));
 
-        gridColumns = 6;
-        gridRows = 3;
+        gridColumns = tab.grid_cols;
+        gridRows = tab.grid_rows;
 
         // cells.push({
         //   view: "panel",

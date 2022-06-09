@@ -10,6 +10,8 @@ import BillByAggByItem from "views/bills/billByAgView";
 import BillByZoneView from "views/bills/billByZone";
 import PayMethView from "views/bills/payByMeth";
 import AgentTabView from "views/bills/agentTab";
+//rec
+import RecouvGridView from "views/bills/recouvGridView";
 
 export function dashComponentsBill(app) {
   return {
@@ -51,5 +53,7 @@ export function dashComponentsBill(app) {
     },
     agent_tab: AgentTabView,
     pay_meth: PayMethView,
+    Recouv_grid_period: new RecouvGridView(app, "", "PERIODIQUE"),
+    Recouv_grid_iso: new RecouvGridView(app, "", "ISOLEE"),
   };
 }

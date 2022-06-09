@@ -52,6 +52,7 @@ export function setLabels() {
   for (let elm of getAllFilters()) {
     //console.log(elm);
     if (elm == "d1" || elm == "d2") continue;
+
     if (typeof $$("filterelmt:" + elm) != "undefined") {
       $$("loginbar").removeView("filterelmt:" + elm);
     }
@@ -88,14 +89,17 @@ export function getMonth(date) {
 export function getDates() {
   return getPeriod();
 }
-export function getMonthsFromDate(date,nbr){
-
-	let months = [],
-	d = date.substr(0,7)+"-01"
-	for(let i = nbr; i>=0; i--){
-		months.push( webix.Date.dateToStr("%Y-%m")(webix.Date.add(webix.Date.strToDate("%Y-%m-%d")(d),-i,"month")))
-	}
-	return months
+export function getMonthsFromDate(date, nbr) {
+  let months = [],
+    d = date.substr(0, 7) + "-01";
+  for (let i = nbr; i >= 0; i--) {
+    months.push(
+      webix.Date.dateToStr("%Y-%m")(
+        webix.Date.add(webix.Date.strToDate("%Y-%m-%d")(d), -i, "month")
+      )
+    );
+  }
+  return months;
 }
 function getDeepData(odata, t) {
   let data = { ...odata };

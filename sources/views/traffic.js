@@ -18,14 +18,16 @@ export default class TraffViewView extends JetView {
      * Take all stats and properties
      */
     var menu = getMenuApp("traffic");
+    // console.log(menu);
     /**
      * MENU ID
      */
     var menu_id = menu.id;
     var rows = [];
 
-    this._colCount = 4;
-    this._maxColCount = 4;
+    this._colCount = menu.stats.col_count;
+    this._maxColCount = menu.stats.max_col_count;
+
     var rowstat = {
       view:
         getScreenType() != "mobile" && getScreenType() != "mobile_rotated"

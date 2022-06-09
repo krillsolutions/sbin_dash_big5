@@ -35,11 +35,11 @@ export default class BillTabView extends JetView {
       // }
     });
 
-    cells.push({
-      id: "tab:recouvre",
-      header: "Recouvrement",
-      body: RecouvDetDash,
-    });
+    // cells.push({
+    //   id: "tab:recouvre",
+    //   header: "Recouvrement",
+    //   body: RecouvDetDash,
+    // });
 
     // console.log(cells);
 

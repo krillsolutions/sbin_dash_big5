@@ -206,8 +206,11 @@ export default class RevGraphDashView extends JetView {
 
         var tab = menu.tabs[0];
 
-        gridColumns = 8;
-        gridRows = 6;
+        // console.log(tab);
+
+        gridColumns = tab.grid_cols;
+        gridRows = tab.grid_rows;
+
         // cells.push({
         //   view: "panel",
         //   x: 0,

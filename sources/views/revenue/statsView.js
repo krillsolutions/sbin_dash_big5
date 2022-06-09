@@ -18,8 +18,9 @@ export default class StatsView extends JetView {
     var menu_id = menu.id;
     // console.log(menu_id);
 
-    this._colCount = 6;
-    this._maxColCount = 6;
+    this._colCount = menu.stats.col_count;
+    this._maxColCount = menu.stats.max_col_count;
+
     var rowstat = {
       view:
         getScreenType() != "mobile" && getScreenType() != "mobile_rotated"

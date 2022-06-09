@@ -156,9 +156,6 @@ export default class ParcGraphDashView extends JetView {
         break;
 
       default:
-        gridColumns = 10;
-        gridRows = 6;
-
         /**
          * Take all stats and properties
          */
@@ -169,6 +166,9 @@ export default class ParcGraphDashView extends JetView {
 
         var tab = menu.tabs[0];
         // console.log(tab);
+
+        gridColumns = tab.grid_cols;
+        gridRows = tab.grid_rows;
 
         // cells.push({
         //   view: "panel",

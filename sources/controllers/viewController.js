@@ -22,13 +22,21 @@ export default class EventController {
                 ? webix.Date.dateToStr("%Y-%m-%d")(value.end)
                 : webix.Date.dateToStr("%Y-%m-%d")(value.start);
           } else {
-            filter_obj[filter] = value.join(",");
+            if (
+              myFilters[filter]["op"] == "all" &&
+              value.length == myFilters[filter]["values"].length
+            ) {
+              delete filter_obj[filter];
+            } else {
+              // console.log(myFilters[filter]["values"].join(","));
+              filter_obj[filter] = value.join(",");
+            }
           }
         } else {
           if (myFilters[filter]["op"] == "all") {
             delete filter_obj[filter];
           } else if (myFilters[filter]["values"].length > 0) {
-            console.log(myFilters[filter]["values"].join(","));
+            // console.log(myFilters[filter]["values"].join(","));
             filter_obj[filter] = myFilters[filter]["values"].join(",");
           }
         }

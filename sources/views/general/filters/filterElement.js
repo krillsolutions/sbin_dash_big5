@@ -38,17 +38,29 @@ export default class FiltersView extends JetView {
       if (typeof filter_data[type] == "undefined")
         this.$$(this._type + "_filt").define("value", options_filter.join(","));
       else this.$$(this._type + "_filt").define("value", filter_data[type]);
-      view.define("placeholder", filter_ref["filters"][type].default);
+
+      view.define(
+        "placeholder",
+        // filter_ref["filters"][type].options[0].op == "all"
+        // ?
+        filter_ref["filters"][type].default
+        // : filter_ref["filters"][type].options[0].length
+      );
+
       view.define("tagTemplate", function (values) {
-        //console.log(values);
         if (values.length) {
-          if (values.length == filter_ref["filters"][type].options.length)
+          if (
+            values.length ==
+              filter_ref["filters"][type].options[0].values.length &&
+            filter_ref["filters"][type].options[0].op == "all"
+          )
             return filter_ref["filters"][type].default;
           else return values.length + " " + filter_ref["filters"][type].desc;
         }
 
         return filter_ref["filters"][type].default;
       });
+
       view.define("on", {
         onChange: function (newV, oldV) {
           // if (newV.length != filter_ref["filters"][type].options.length)

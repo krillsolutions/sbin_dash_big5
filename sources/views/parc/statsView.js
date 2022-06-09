@@ -20,8 +20,8 @@ export default class StatsView extends JetView {
 
     // console.log(getStats(this.app, menu_id, menu.stats));
 
-    this._colCount = 5;
-    this._maxColCount = 5;
+    this._colCount = menu.stats.col_count;
+    this._maxColCount = menu.stats.max_col_count;
     var rowstat = {
       view:
         getScreenType() != "mobile" && getScreenType() != "mobile_rotated"
@@ -29,7 +29,7 @@ export default class StatsView extends JetView {
           : "m-dashboard",
       id: "parc:stats",
       gridColumns: this._colCount,
-      gridRows: 1,
+      gridRows: menu.stats.grid_rows,
       maxHeight: 100,
       responsive: "hide",
       cells: getStats(this.app, menu_id, menu.stats),

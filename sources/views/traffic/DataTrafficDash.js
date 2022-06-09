@@ -222,10 +222,11 @@ export default class TraficDataGraphDashView extends JetView {
 
         var tab = menu.tabs.filter((e) => e.id == tab_id)[0];
         // console.log(menu.tabs);
-        // console.log(tab_id);
+        // console.log(tab);
 
-        gridColumns = 9;
-        gridRows = 6;
+        gridColumns = tab.grid_cols;
+        gridRows = tab.grid_rows;
+
         // cells.push({
         //   view: "panel",
         //   x: 0,

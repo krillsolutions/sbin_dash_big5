@@ -317,9 +317,6 @@ export default class GraphDashView extends JetView {
         break;
 
       default:
-        gridColumns = 6;
-        gridRows = 10;
-
         /**
          * Take all stats and properties
          */
@@ -328,6 +325,9 @@ export default class GraphDashView extends JetView {
         var menu_id = menu.id;
 
         var tab = menu.tabs[0];
+
+        gridColumns = tab.grid_cols;
+        gridRows = tab.grid_rows;
 
         break;
     }

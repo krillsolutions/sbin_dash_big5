@@ -252,8 +252,8 @@ export default class TraficByTypeGraphDashView extends JetView {
 
         // console.log(getPanels(this.app, menu_id, tab, kpi));
 
-        gridColumns = 9;
-        gridRows = 3;
+        gridColumns = tab.grid_cols;
+        gridRows = tab.grid_rows;
         // cells.push({
         //   view: "panel",
         //   x: 0,
