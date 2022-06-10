@@ -25,7 +25,13 @@ export default class RecouvCarControl extends JetView {
   init(view) {
     let fact = this._fact;
     filter_ref.then((filter_ref) => {
-      view.define("options", filter_ref["filters"]["p"]["options"][0].values);
+      let prd_options = [];
+
+      if (filter_ref["filters"]["p"]["options"][0]) {
+        prd_options = filter_ref["filters"]["p"]["options"][0].values;
+      }
+
+      view.define("options", prd_options);
     });
 
     view.define("on", {
