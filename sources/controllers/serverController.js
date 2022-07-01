@@ -1,19 +1,17 @@
-import {getFilterString} from "models/utils/general/boot";
+import { getFilterString } from "models/utils/general/boot";
 import HomeServerManager from "models/utils/server/ServerManager";
 //import {OMManager, ParcServerManager, RevenueServerManager, TrafficServerManager, MonitorServerManager, WimaxServerManager, SalesServerManager} from "models/utils/server/ServerManager";
 //import { TopupManager } from "models/utils/server/ServerManager";
-import {controllerConfig} from "controllers/controllerConfig"
+import { controllerConfig } from "controllers/controllerConfig";
 export default class ServerController {
+  static getData(menu, func, type, params) {
+    //console.log(func)
+    //console.log(controllerConfig[menu][func])
 
-    static getData(menu, func, type, params ) {
-        
-        //console.log(func)
-        //console.log(controllerConfig[menu][func])
+    // console.log(filter);
+    return controllerConfig[menu][func](type, getFilterString(), params);
 
-       // console.log(filter);
-        return controllerConfig[menu][func](type, getFilterString(), params);
-        
-        /*switch (menu) {
+    /*switch (menu) {
             case 'home':
                 console.log(type)
                 return HomeServerManager[func](type, getFilter(), params);
@@ -50,13 +48,13 @@ export default class ServerController {
             default:
                 break;
         }*/
-    }
+  }
 
-    static getDrillData(menu,func,type, date,params) {
-    	let filter = getFilterString();
-	    filter['d1'] = date;
-        return controllerConfig[menu][func](type, filter, params);
-        /*switch (menu) {
+  static getDrillData(menu, func, type, date, params) {
+    let filter = getFilterString();
+    filter["d1"] = date;
+    return controllerConfig[menu][func](type, filter, params);
+    /*switch (menu) {
             case 'home':
                 return HomeServerManager[func](type, filter, params);
                 break;
@@ -88,8 +86,6 @@ export default class ServerController {
 			
             default:
                 break;
-        }   */ 	
-    
-    }
-
+        }   */
+  }
 }

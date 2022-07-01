@@ -1,6 +1,40 @@
 import { getUrl } from "models/utils/general/utils";
+import { getToken } from "models/utils/general/boot";
 
 //console.log(urls)
+
+/**
+ * INTERCEPTOR AJAX
+ */
+
+webix.attachEvent(
+  "onBeforeAjax",
+  function (mode, url, data, request, headers, files, promise) {
+    headers["Authorization"] = "Bearer " + getToken();
+  }
+);
+
+/**
+ * GET APP LIST
+ */
+const dash_data_coll = new webix.DataCollection({
+  id: "apps_list",
+  url: urls["dash_apps"],
+});
+
+export function getAppList() {
+  let current_app = dash_data_coll.data
+    .getRange()
+    .filter((e) => e.id == app_id)[0];
+
+  return current_app;
+}
+
+export function getMenuApp(menu_id) {
+  let menu = getAppList().menus.filter((e) => e.id == menu_id)[0];
+
+  return menu;
+}
 
 export const refData = new webix.DataCollection({
   url: getUrl("refdata"),
@@ -32,11 +66,8 @@ export const geo_config = {};
 export const geo_files_loc = {};
 export const kpi_field = {};
 export const dash_titles = {};
-export const urls = {
-  api_url: "https://server.krillsolutions.com/api/sbin/",
-  host: "https://server.krillsolutions.com/api/sbin/",
-  login_url: "https://server.krillsolutions.com/api/sbin/auth",
-};
+export const urls = {};
+
 export const ressource_ref = {};
 export const filters_list = [];
 
@@ -45,20 +76,16 @@ export const filter_ref = new Promise((res, rej) => {
     let filters = refData.getItem(refData.getFirstId())["filters_opt"];
     let opt_ref = refData.getItem(refData.getFirstId())["opt_ref"];
     const value = { filters: {} };
-    //console.log(opt_ref);
     for (let ref of filters) {
-      if (opt_ref[ref.name]) {
-        filters_list.push(ref.name);
-        value["filters"][ref.name] = {
-          default: ref.default,
-          desc: ref.description,
-          icon: ref.icon,
-          illustration: ref.illustration,
-          options: [...opt_ref[ref.name]],
-        };
-      }
+      filters_list.push(ref.name);
+      value["filters"][ref.name] = {
+        default: ref.default,
+        desc: ref.description,
+        icon: ref.icon,
+        illustration: ref.illustration,
+        options: [...opt_ref[ref.name]],
+      };
     }
-    //	console.log(value);
     res(value);
   });
 });
@@ -69,7 +96,6 @@ export const color_ref = new webix.promise((res, rej) => {
     for (let ref in colors) {
       value[ref] = colors[ref];
     }
-    //console.log(value);
     res(value);
   });
 });
@@ -105,32 +131,7 @@ export const recFilterOptions = new webix.promise((res, rej) => {
     res(value);
   });
 });
-refData.waitData.then(() => {
-  let titles = refData.getItem(refData.getFirstId())["dash_titles"];
 
-  for (let ref in titles) {
-    dash_titles[ref] = titles[ref];
-  }
-  let opt_ref = refData.getItem(refData.getFirstId())["opt_ref"];
-  for (let b of opt_ref["b"]) {
-    //console.log(b);
-    bill_type.push(b);
-  }
-  let links = refData.getItem(refData.getFirstId())["urls"];
-  //console.log(links);
-  for (let ref in links) {
-    urls[ref] = links[ref];
-  }
-  //urls['api_url'] = 'https://localhost/api/';
-  let locs = refData.getItem(refData.getFirstId())["geo_files"];
-  for (let ref in locs) {
-    geo_files_loc[ref] = locs[ref];
-  }
-  let conf = refData.getItem(refData.getFirstId())["geo_config"];
-  for (let ref in conf) {
-    geo_config[ref] = conf[ref];
-  }
-});
 export const revGeoOptions = new webix.promise((res, rej) => {
   refData.waitData.then(() => {
     let select_opt = refData.getItem(refData.getFirstId())["select_options"];
@@ -141,6 +142,7 @@ export const revGeoOptions = new webix.promise((res, rej) => {
     res(value);
   });
 });
+
 refData.waitData.then(() => {
   let refs = refData.getItem(refData.getFirstId())["titles"];
 
@@ -151,7 +153,6 @@ refData.waitData.then(() => {
   let fields = refData.getItem(refData.getFirstId())["kpi_labels"];
 
   for (let ref in fields) {
-    //console.log(ref);
     kpi_field[ref] = fields[ref];
   }
 
@@ -162,19 +163,14 @@ refData.waitData.then(() => {
   }
 
   let opt_ref = refData.getItem(refData.getFirstId())["opt_ref"];
-  for (let b of opt_ref["b"]) {
-    //console.log(b);
+
+  for (const b of opt_ref.b.values) {
     bill_type.push(b);
   }
   let links = refData.getItem(refData.getFirstId())["urls"];
-  //console.log(links);
-  // for(let ref in links) {
-  //     urls[ref] = links[ref];
-  // }
-  // urls['api_url'] = 'https://192.168.11.105/api/';
-  //   urls["api_url"] = "https://server.krillsolutions.com/api/sbin/";
-  //   urls["host"] = "https://server.krillsolutions.com/api/sbin/";
-  //   urls["login_url"] = "https://server.krillsolutions.com/api/sbin/auth";
+  for (let ref in links) {
+    urls[ref] = links[ref];
+  }
 
   let locs = refData.getItem(refData.getFirstId())["geo_files"];
   for (let ref in locs) {
@@ -185,7 +181,7 @@ refData.waitData.then(() => {
     geo_config[ref] = conf[ref];
   }
   let ress = refData.getItem(refData.getFirstId())["tool_bar_refs"];
-  //	console.log(ress);
+  // console.log(ress);
   for (let ref in ress) {
     ressource_ref[ref] = ress[ref];
   }
