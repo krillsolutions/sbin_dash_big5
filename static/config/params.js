@@ -7,6 +7,7 @@ var urls = {
   refdata: host + "getRef-sbin?kpi=00",
   distref: host + "getRef-sbin?kpi=dist",
   menudata: host + "getRef-sbin?kpi=01&p=" + app_id,
+  dash_apps: host + "getDashApps",
 };
 
 var api_url = "";
