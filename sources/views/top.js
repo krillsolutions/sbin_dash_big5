@@ -31,8 +31,6 @@ export default class TopView extends JetView {
        * END FILTER MAPPING
        */
       myFilters = response.filters;
-      // console.log(authorizations);
-      // console.log(myFilters);
 
       boot();
       return refData.waitData.then(() => {

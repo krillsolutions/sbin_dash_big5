@@ -77,7 +77,6 @@ export function initUserSession(app) {
 
   return new webix.promise((res, rej) => {
     //decrypt token and return authorization
-    // console.log(userData["info"]);
     var plain_token = parseJwt(userData["info"].api_token);
     userData["info"]["name"] = plain_token.user_name;
     res({

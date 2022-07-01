@@ -19,7 +19,7 @@ webix.attachEvent(
  */
 const dash_data_coll = new webix.DataCollection({
   id: "apps_list",
-  url: "https://server.krillsolutions.com/api/sbin/getDashApps",
+  url: urls["dash_apps"],
 });
 
 export function getAppList() {
@@ -183,15 +183,15 @@ refData.waitData.then(() => {
   }
   let links = refData.getItem(refData.getFirstId())["urls"];
   //console.log(links);
-  // for (let ref in links) {
-  //   urls[ref] = links[ref];
-  // }
+  for (let ref in links) {
+    urls[ref] = links[ref];
+  }
   //   console.log(urls);
   // urls['api_url'] = 'https://192.168.11.105/api/';
 
-  urls["api_url"] = "https://server.krillsolutions.com/api/sbin/";
-  urls["host"] = "https://server.krillsolutions.com/api/sbin/";
-  urls["login_url"] = "https://server.krillsolutions.com/api/sbin/auth-sbin";
+  // urls["api_url"] = "https://server.krillsolutions.com/api/sbin/";
+  // urls["host"] = "https://server.krillsolutions.com/api/sbin/";
+  // urls["login_url"] = "https://server.krillsolutions.com/api/sbin/auth-sbin";
 
   let locs = refData.getItem(refData.getFirstId())["geo_files"];
   for (let ref in locs) {
