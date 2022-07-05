@@ -4,4 +4,4 @@ fontawesome-free-6.1.0-web
 semantic
 semantic.json
 codebase
-static
+static/config/params.js
