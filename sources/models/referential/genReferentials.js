@@ -19,7 +19,7 @@ webix.attachEvent(
  */
 const dash_data_coll = new webix.DataCollection({
   id: "apps_list",
-  url: host + "getDashApps",
+  url: getUrl("dash_apps"),
 });
 
 export function getAppList() {

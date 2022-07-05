@@ -3,7 +3,8 @@ import ServerController from "controllers/serverController";
 import { BillingServerManager } from "models/utils/server/ServerManager";
 import EventController from "controllers/viewController";
 
-new BillingServerManager(urls.api_url);
+// new BillingServerManager(urls.api_url);
+new BillingServerManager(host);
 
 const bills_stats = new webix.DataCollection({
   id: "bills_stats",

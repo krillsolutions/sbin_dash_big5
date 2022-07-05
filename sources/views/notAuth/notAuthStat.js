@@ -40,6 +40,9 @@ export default class NotAuthStatView extends JetView {
 
       case "bills":
         my_header = kpi_field["bill_" + kp].label;
+
+      case "monitor":
+        my_header = kpi_field["mon_" + kp].label;
         break;
     }
 
