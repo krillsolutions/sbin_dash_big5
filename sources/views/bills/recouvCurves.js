@@ -137,7 +137,7 @@ export default class RecouvreCurveView extends JetView {
       //   view._current_prod = filter_ref["filters"]["p"]["options"][0].id
       //     ? filter_ref["filters"]["p"]["options"][0].id
       //     : filter_ref["filters"]["p"]["options"][0];
-      view._current_prod = filter_ref["filters"]["p"]["options"][0];
+      view._current_prod = filter_ref["filters"]["p"]["options"][0]['values'][0];
     });
 
     //if(!getBillsChartData("recouvDecTab").data.getRange)

@@ -46,7 +46,7 @@ export default class TraffIntGeoView extends JetView{
                         
                     }
                 }
-                conf.visualMap.inRange.color = colors;
+                conf.visualMap.inRange.color = (colors.length > 0) ? colors : ['white','red'];
 
             },
 			options :{

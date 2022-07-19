@@ -70,7 +70,7 @@ webix.protoUI({
             conf.series[0].data = dat.map((d) => ({ name : d.code.trim(), value : d.value, country : d.country })) ;
             conf.visualMap.max = Number.parseFloat(d3.max(conf.series[0].data.map((d) => d.value)));
             conf.visualMap.min = Number.parseFloat(d3.min(conf.series[0].data.map((d) => d.value)));
-
+            conf.visualMap.min = (conf.visualMap.max == conf.visualMap.min)?1 : conf.visualMap.min;		
             if(typeof this.config.beforedisplay == 'function') this.config.beforedisplay(data, conf);
             this._echart_obj.setOption(conf,true);
             this._echart_obj.hideLoading();

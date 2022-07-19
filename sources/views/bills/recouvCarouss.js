@@ -20,7 +20,7 @@ export default class RecouvCaroussView extends JetView {
             id : "recouv:carous:"+this._type,
             css:"webix_dark",
             cols : [
-                new RecouvGridView(this.app,"", this._type),
+                //new RecouvGridView(this.app,"", this._type),
                 {
                     type : "clean", margin : 0, rows : [
                         new RecouvCarControl(this.app, "", this._type),

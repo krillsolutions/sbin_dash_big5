@@ -64,7 +64,7 @@ export default class TopView extends JetView {
   }
 
   init(view) {
-    // initUserSession(this.app);
+    webix.i18n.setLocale((app_lang?app_lang:"fr-FR"));
     gconfig["app"] = this.app;
     setScreenType();
     webix.protoUI(

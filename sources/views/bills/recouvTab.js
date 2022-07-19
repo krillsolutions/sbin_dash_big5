@@ -106,9 +106,19 @@ export default class RecouvTableView extends JetView {
       //   view._current_prod = filter_ref["filters"]["p"]["options"][0].id
       //     ? filter_ref["filters"]["p"]["options"][0].id
       //     : filter_ref["filters"]["p"]["options"][0];
-      view._current_prod = filter_ref["filters"]["p"]["options"][0];
+      view._current_prod = filter_ref["filters"]["p"]["options"][0]['values'][0];
     });
 
+            view.data.attachEvent("onStoreLoad", function () {
+                let prod = view._current_prod
+		console.log(prod)
+                view.filter(d => (d.type == fact && d.product == prod))
+                view.sort((a,b) => (b.month<a.month? 1: -1))
+                view.disable()
+                view.showProgress()
+		console.log("Store load")
+                //updateChartReady("recouvr:vue2:decay:"+fact);
+            });
     getBillsChartData("recouvDecTab").waitData.then(function (d) {
       //let data = [...getBillsChartData("recouvDecTab").data.getRange()].filter(d => d.type == fact).sort((a,b) => (b<a? 1: -1))
 
@@ -147,13 +157,13 @@ export default class RecouvTableView extends JetView {
       }
     });
 
-    view.data.attachEvent("onStoreLoad", function () {
+    /*view.data.attachEvent("onStoreLoad", function () {
       let prod = view._current_prod;
       view.filter((d) => d.type == fact && d.product == prod);
       view.sort((a, b) => (b.month < a.month ? 1 : -1));
       view.disable();
       view.showProgress();
       //updateChartReady("recouvr:vue2:decay:"+fact);
-    });
+    });*/
   }
 }

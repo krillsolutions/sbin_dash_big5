@@ -101,7 +101,8 @@ function getChilds(app, childs, authorized, kpi) {
                   app,
                   "",
                   f.period_prefix + kpi,
-                  f.nb_period_select
+                  f.nb_period_select,
+		  (f.nb?f.nb:0)
                 ),
                 getComponent(app, f.id, "dash", kpi),
               ]
